@@ -1,11 +1,13 @@
 package za.co.tt.domain;
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name="payment")
 public class Payment {
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long paymentId;
 
     private String paymentMethod;
@@ -13,12 +15,12 @@ public class Payment {
     private double amount;
     private LocalDate paymentDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
+    @ManyToOne
+     @JoinColumn(name = "userId")
     private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id")
+       @ManyToOne
+       @JoinColumn(name = "orderId")
       private Order order;
 
     protected Payment() {

@@ -1,6 +1,5 @@
 package za.co.tt.factory;
 
-
 import za.co.tt.domain.Address;
 import za.co.tt.domain.User;
 import za.co.tt.util.Helper;
@@ -62,4 +61,3 @@ public class AddressFactory {
                 .build();
     }
 }
-

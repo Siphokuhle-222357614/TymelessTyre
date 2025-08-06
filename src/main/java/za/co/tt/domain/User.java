@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name="user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String firstName;
     private String lastName;
@@ -28,20 +28,19 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Address> addresses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Payment> payments;
+
+//
 //    @OneToMany(mappedBy = "user")
 //    private List<Order> orders;
 //
 //    @OneToMany(mappedBy = "user")
 //    private List<Review> reviews;
 //
-//    @OneToMany(mappedBy = "user")
-//    private List<Payment> payments;
-//
+
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 //    private Cart cart;
-
-
-
 
 
     public User(){
@@ -59,6 +58,7 @@ public class User {
         this.isAdmin = builder.isAdmin;
         this.isActive = builder.isActive;
         this.addresses = builder.addresses;
+        this.payments = builder.payments;
     }
 
     public Long getUserId() {
@@ -100,6 +100,10 @@ public class User {
         return addresses;
     }
 
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -113,6 +117,8 @@ public class User {
                 ", isActive=" + isActive +
                 ", createdAt=" + createdAt +
                 ", addresses=" + addresses +
+                ", payments=" + payments +
+                //more to be added
                 '}';
     }
 
@@ -127,6 +133,7 @@ public class User {
         private Boolean isAdmin = false;
         private Boolean isActive = true;
         private List<Address> addresses;
+        private List<Payment> payments;
 
 
 
@@ -170,6 +177,10 @@ public class User {
             this.addresses = addresses;
             return this;
         }
+        public Builder setPayments(List<Payment> payments){
+            this.payments = payments;
+            return  this;
+        }
         public Builder copy(User user) {
             this.userId = user.userId;
             this.firstName = user.firstName;
@@ -181,6 +192,7 @@ public class User {
             this.isAdmin = user.isAdmin;
             this.isActive = user.isActive;
             this.addresses = user.addresses;
+            this.payments = user.payments;
             return this;
         }
         public User build(){
@@ -188,5 +200,3 @@ public class User {
         }
     }
 }
-
-

@@ -1,25 +1,32 @@
 package factoryTest;
 
+
 import org.junit.jupiter.api.Test;
 import za.co.tt.domain.Address;
+//import za.co.tt.domain.Payment;
 import za.co.tt.domain.User;
 import za.co.tt.factory.AddressFactory;
 import za.co.tt.factory.UserFactory;
 
 import java.time.LocalDate;
 
+
+
 import static factoryTest.UserFactoryTest.addressList;
+import static factoryTest.UserFactoryTest.paymentsList;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AddressFactoryTest {
 
+
     User testUser = UserFactory.createUser(1002L, "John", "Doe",
             "doe@gmail.com",
-            "psd123", "0780298461", LocalDate.now(), false, true, addressList);
+            "psd123", "0780298461", LocalDate.now(), false, true, addressList,
+            paymentsList);
 
     User testUser1 = UserFactory.createUser(1003L, "Lwazi", "Mthethwa",
             "mthethwa@gmail.com", "psd456", "0781037298", LocalDate.now(),
-            true, true, addressList);
+            true, true, addressList, paymentsList);
 
 
 
@@ -57,4 +64,3 @@ public class AddressFactoryTest {
 
     }
 }
-

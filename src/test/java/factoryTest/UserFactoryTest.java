@@ -3,8 +3,10 @@ package factoryTest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import za.co.tt.domain.Address;
+import za.co.tt.domain.Payment;
 import za.co.tt.domain.User;
 import za.co.tt.factory.AddressFactory;
+import za.co.tt.factory.PaymentFactory;
 import za.co.tt.factory.UserFactory;
 
 import java.time.LocalDate;
@@ -20,10 +22,6 @@ public class UserFactoryTest {
     static List<Address> addressList = new ArrayList<>();
 
     static {
-//        User testUser = UserFactory.createUser(1002L, "John", "Doe",
-//                "doe@gmail.com",
-//                "psd123", "0780298461", LocalDate.now(), false, true, addressList);
-
 
         addressList.add(AddressFactory.createAddress(
                 1L, "123 Main St", "Cape Town", "Western Cape",
@@ -31,18 +29,23 @@ public class UserFactoryTest {
                 , LocalDate.now()));
         addressList.add(AddressFactory.createAddress(
                 2L, "456 Second St", "Strand","Western Cape", 7140,
-                "Sout Africa", true, null, LocalDate.now(), LocalDate.now()));
+                "South Africa", true, null, LocalDate.now(), LocalDate.now()));
+    }
+    static List<Payment> paymentsList = new ArrayList<>();
+    static{
+        paymentsList.add(PaymentFactory.createPayment(002L, "Card", "Successful",
+                2500.00, LocalDate.now(), null, null));
     }
 
-    User user1 = UserFactory.createUser(001L, "John", "Doe",
+    static User user1 = UserFactory.createUser(001L, "John", "Doe",
             "doe.gmail.com",
             "password123", "07829847", LocalDate.now(),
-            false, true, null);
+            false, true, null, null);
 
     User user2 = UserFactory.createUser(002L, "Luyanda", "Mabasa",
             "mabasal@gmail.com",
             "psd2025", "0797192985", LocalDate.now(),
-            false, true, addressList);
+            false, true, addressList, paymentsList);
 
 
 
@@ -62,4 +65,3 @@ public class UserFactoryTest {
 
 
 }
-
