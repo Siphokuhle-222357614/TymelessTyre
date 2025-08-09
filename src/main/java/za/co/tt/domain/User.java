@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name="user")
 public class User {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String firstName;
     private String lastName;
@@ -31,16 +31,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<Review> reviews;
-//
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Cart cart;
+     @OneToMany(mappedBy = "user")
+     private List<Order> orders;
+
+     @OneToMany(mappedBy = "user")
+     private List<Review> reviews;
+
+
+      @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+      private Cart cart;
 
 
     public User(){
@@ -59,13 +59,16 @@ public class User {
         this.isActive = builder.isActive;
         this.addresses = builder.addresses;
         this.payments = builder.payments;
+        this.orders = builder.orders;
     }
 
     public Long getUserId() {
+
         return userId;
     }
 
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -96,6 +99,7 @@ public class User {
     public LocalDate getCreatedAt() {
         return createdAt;
     }
+
     public List<Address> getAddresses() {
         return addresses;
     }
@@ -103,6 +107,11 @@ public class User {
     public List<Payment> getPayments() {
         return payments;
     }
+
+    public List<Order> getOrders(){
+        return orders;
+    }
+
 
     @Override
     public String toString() {
@@ -118,6 +127,7 @@ public class User {
                 ", createdAt=" + createdAt +
                 ", addresses=" + addresses +
                 ", payments=" + payments +
+                ", orders=" + orders +
                 //more to be added
                 '}';
     }
@@ -134,6 +144,7 @@ public class User {
         private Boolean isActive = true;
         private List<Address> addresses;
         private List<Payment> payments;
+        private List<Order> orders;
 
 
 
@@ -181,6 +192,10 @@ public class User {
             this.payments = payments;
             return  this;
         }
+        public Builder setOrder(List<Order> orders){
+            this.orders = orders;
+            return this;
+        }
         public Builder copy(User user) {
             this.userId = user.userId;
             this.firstName = user.firstName;
@@ -193,6 +208,7 @@ public class User {
             this.isActive = user.isActive;
             this.addresses = user.addresses;
             this.payments = user.payments;
+            this.orders = user.orders;
             return this;
         }
         public User build(){
