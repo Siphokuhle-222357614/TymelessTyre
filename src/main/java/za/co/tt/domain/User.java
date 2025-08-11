@@ -1,3 +1,8 @@
+/*User Domain(Builder)
+ * Author: Yanga Jilaji
+ * Student number: 222582731
+ * */
+
 package za.co.tt.domain;
 
 import jakarta.persistence.*;
@@ -23,7 +28,8 @@ public class User {
     @CreationTimestamp
     private LocalDate createdAt;
 
-    private Boolean isAdmin = false;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
     private Boolean isActive = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -36,10 +42,10 @@ public class User {
      private List<Order> orders;
 
      @OneToMany(mappedBy = "user")
-     private List<Review> reviews;
+     private List<Reviews> reviews;
 
 
-      @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+      @OneToOne(mappedBy = "user")
       private Cart cart;
 
 
@@ -55,12 +61,15 @@ public class User {
         this.password= builder.password;
         this.phone= builder.phone;
         this.createdAt = builder.createdAt;
-        this.isAdmin = builder.isAdmin;
+        this.role = builder.role;
         this.isActive = builder.isActive;
         this.addresses = builder.addresses;
         this.payments = builder.payments;
         this.orders = builder.orders;
+        this.reviews = builder.reviews;
+        this.cart = builder.cart;
     }
+
 
     public Long getUserId() {
 
@@ -88,8 +97,8 @@ public class User {
         return phone;
     }
 
-    public Boolean getAdmin() {
-        return isAdmin;
+    public UserRole getRole() {
+        return role;
     }
 
     public Boolean getActive() {
@@ -111,6 +120,12 @@ public class User {
     public List<Order> getOrders(){
         return orders;
     }
+    public List<Reviews> getReviews(){
+        return reviews;
+    }
+    public Cart getCart(){
+        return  cart;
+    }
 
 
     @Override
@@ -122,13 +137,14 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", role=" + role +
                 ", isActive=" + isActive +
                 ", createdAt=" + createdAt +
                 ", addresses=" + addresses +
                 ", payments=" + payments +
                 ", orders=" + orders +
-                //more to be added
+                ", reviews=" + reviews +
+                ", cart=" + cart +
                 '}';
     }
 
@@ -140,11 +156,15 @@ public class User {
         private String password;
         private String phone;
         private LocalDate createdAt;
-        private Boolean isAdmin = false;
+        private UserRole role = UserRole.CUSTOMER; //Default
+        //can also be:
+        //private UserRole role;
         private Boolean isActive = true;
         private List<Address> addresses;
         private List<Payment> payments;
         private List<Order> orders;
+        private List<Reviews> reviews;
+        private Cart cart;
 
 
 
@@ -176,11 +196,11 @@ public class User {
             this.createdAt = createdAt;
             return this;
         }
-        public Builder setAdmin(Boolean isAdmin) {
-            this.isAdmin = isAdmin;
+        public Builder setRole(UserRole role) {
+            this.role = role;
             return this;
         }
-        public Builder setActive(Boolean isActive) {
+        public Builder setIsActive(Boolean isActive) {
             this.isActive = isActive;
             return this;
         }
@@ -196,6 +216,15 @@ public class User {
             this.orders = orders;
             return this;
         }
+        public  Builder setReviews(List<Reviews> reviews){
+            this.reviews = reviews;
+            return this;
+        }
+        public Builder setCart(Cart cart){
+            this.cart = cart;
+            return this;
+        }
+
         public Builder copy(User user) {
             this.userId = user.userId;
             this.firstName = user.firstName;
@@ -204,13 +233,16 @@ public class User {
             this.password = user.password;
             this.phone = user.phone;
             this.createdAt = user.createdAt;
-            this.isAdmin = user.isAdmin;
+            this.role = user.role;
             this.isActive = user.isActive;
             this.addresses = user.addresses;
             this.payments = user.payments;
             this.orders = user.orders;
+            this.reviews = user.reviews;
+            this.cart = user.cart;
             return this;
         }
+
         public User build(){
             return new User(this);
         }

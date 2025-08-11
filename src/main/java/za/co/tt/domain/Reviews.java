@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name="review")
-public class Review {
+@Table(name="reviews")
+public class Reviews {
 
     //Just placeholders to avoid errors, to be fixed by the owner of this entity..
     @Id

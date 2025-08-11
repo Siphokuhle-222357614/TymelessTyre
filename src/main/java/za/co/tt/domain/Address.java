@@ -1,9 +1,11 @@
+/*Address Domain(Builder)
+ * Author: Yanga Jilaji
+ * Student number: 222582731
+ * */
 package za.co.tt.domain;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.time.LocalDate;
 
 @Entity
@@ -11,7 +13,7 @@ import java.time.LocalDate;
 public class Address {
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String street;
     private String city;

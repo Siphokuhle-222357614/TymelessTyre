@@ -1,3 +1,8 @@
+/*LoginRequestFactoryTest
+ * Author: Yanga Jilaji
+ * Student number: 222582731
+ * */
+
 package factoryTest;
 
 import org.junit.jupiter.api.Test;

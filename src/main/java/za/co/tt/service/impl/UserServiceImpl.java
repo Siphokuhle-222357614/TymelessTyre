@@ -1,11 +1,4 @@
-package za.co.tt.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import za.co.tt.domain.User;
-import za.co.tt.repository.UserRepository;
-
-import java.util.List;
+package za.co.tt.service.impl;
 
 //@Service
 //public class UserServiceImpl implements UserService{

@@ -1,4 +1,4 @@
-package za.co.tt.service;
+package za.co.tt.service.impl;
 //
 //
 //import org.springframework.beans.factory.annotation.Autowired;
