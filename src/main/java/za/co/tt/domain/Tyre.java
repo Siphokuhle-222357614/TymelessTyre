@@ -1,64 +1,33 @@
 package za.co.tt.domain;
 
-import java.math.BigDecimal;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "tyres")
 public class Tyre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Size(max = 100)
     private String brandName;
-
-    @NotNull
-    @Size(max = 50)
     private String tyreType;
-
-    @Min(1)
     private int aspectRatio;
-
-    @Min(1)
     private int width;
-
-    @Min(1)
     private float wheelDiameter;
-
-    @Min(1)
     private int maxLoad;
-
-    @NotNull
-    @Size(max = 5)
     private String speedRating;
-
-    @Min(0)
     private float tyrePressure;
-
-    @NotNull
-    @Size(max = 20)
     private String tyreCode;
-
-    @Size(max = 20)
     private String eoMark;
-
-    @Size(max = 255)
     private String description;
-
-    @NotNull
-    @DecimalMin("0.0")
     private BigDecimal price;
-
-    @Min(0)
     private int stockQuantity;
-
-    @Size(max = 255)
     private String imageUrl;
+
+    public Tyre() {}
 
 
     public Tyre(Builder builder) {
