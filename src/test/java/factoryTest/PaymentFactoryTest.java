@@ -1,8 +1,9 @@
 /*Author: Bonke Bulana*/
-package za.co.tt.factory;
+package factoryTest;
 
 import org.junit.jupiter.api.Test;
 import za.co.tt.domain.Payment;
+import za.co.tt.factory.PaymentFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
