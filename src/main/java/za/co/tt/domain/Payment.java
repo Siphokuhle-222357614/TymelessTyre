@@ -1,3 +1,4 @@
+/*Author: Bonke Bulana*/
 package za.co.tt.domain;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -6,8 +7,8 @@ import java.time.LocalDate;
 @Table(name="payment")
 public class Payment {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long paymentId;
 
     private String paymentMethod;
@@ -16,12 +17,12 @@ public class Payment {
     private LocalDate paymentDate;
 
     @ManyToOne
-     @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId")
     private User user;
 
-       @ManyToOne
-       @JoinColumn(name = "orderId")
-      private Order order;
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    private Order order;
 
     protected Payment() {
     }
@@ -72,7 +73,7 @@ public class Payment {
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", amount=" + amount +
                 ", paymentDate=" + paymentDate +
-//                ", user=" + (user != null ? user.getUserID() : null) +
+                ", user=" + (user != null ? user.getUserId() : null) +
 //                ", order=" + (order != null ? order.getOrderID() : null) +
                 '}';
     }
