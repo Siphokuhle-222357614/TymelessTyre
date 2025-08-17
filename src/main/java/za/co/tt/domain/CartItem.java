@@ -1,25 +1,27 @@
-/*Author: Bonke Bulana*/
+/*Author: Bonke Bulana - 220539995*/
 package za.co.tt.domain;
+
+import jakarta.persistence.*;
 
 public class CartItem {
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartItemId;
 
     private int quantity;
     private double price;
 
-    //    @ManyToOne
-//    @JoinColumn(name = "cart_id")
+        @ManyToOne
+    @JoinColumn(name = "cartId")
     private Cart cart;
 
-    //    @ManyToOne
-//    @JoinColumn(name = "tyre_id")
+        @ManyToOne
+    @JoinColumn(name = "tyreId")
     private Tyre tyre;
 
-    //    @ManyToOne
-//    @JoinColumn(name = "rim_id")
+        @ManyToOne
+    @JoinColumn(name = "rimId")
     private Rim rim;
 
     protected CartItem() {
