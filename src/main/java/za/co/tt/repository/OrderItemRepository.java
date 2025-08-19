@@ -1,3 +1,4 @@
+// src/main/java/za/co/tt/repository/OrderItemRepository.java
 package za.co.tt.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,5 +7,4 @@ import za.co.tt.domain.OrderItem;
 
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, String> {
-
 }
