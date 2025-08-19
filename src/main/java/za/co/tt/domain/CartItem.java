@@ -66,7 +66,7 @@ public class CartItem {
                 "cartItemId=" + cartItemId +
                 ", quantity=" + quantity +
                 ", price=" + price +
-//                ", cartId=" + (cart != null ? cart.getId() : null) +
+                ", cartId=" + (cart != null ? cart.getCartId() : null) +
                 ", tyreId=" + (tyre != null ? tyre.getId() : null) +
                 ", rimId=" + (rim != null ? rim.getId() : null) +
                 '}';
