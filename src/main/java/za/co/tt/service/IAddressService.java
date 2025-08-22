@@ -9,7 +9,7 @@ package za.co.tt.service;
 import za.co.tt.domain.Address;
 import java.util.List;
 
-public interface AddressService{
+public interface IAddressService {
     Address create(Address address);
     Address read(Long addressId);
     Address update(Address address);
