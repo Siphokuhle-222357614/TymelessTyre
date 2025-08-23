@@ -1,4 +1,4 @@
-package za.co.tt.service;
+package za.co.tt.service.delete;
 
 import org.springframework.stereotype.Service;
 import za.co.tt.domain.Tyre;
