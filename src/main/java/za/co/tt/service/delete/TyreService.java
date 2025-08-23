@@ -47,7 +47,7 @@ public class TyreService {
         return tyreRepository.save(existingTyre);
     }
 
-    public void deleteTyre(Long id) {
-        tyreRepository.deleteById(id);
-    }
+//    public void deleteTyre(Long id) {
+//        tyreRepository.deleteById(id);
+//    }
 }
