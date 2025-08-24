@@ -1,7 +1,13 @@
 // src/main/java/za/co/tt/domain/Review.java
 package za.co.tt.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="reviews")
 public class Reviews {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;             // Unique ID for the review
     private String orderItemId;    // ID of the tire/product being reviewed
     private String reviewerName;   // Name of the customer

@@ -101,7 +101,7 @@ public class User {
         return role;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
@@ -156,9 +156,7 @@ public class User {
         private String password;
         private String phone;
         private LocalDate createdAt;
-        private UserRole role = UserRole.CUSTOMER; //Default
-        //can also be:
-        //private UserRole role;
+        private UserRole role = UserRole.CUSTOMER;
         private Boolean isActive = true;
         private List<Address> addresses;
         private List<Payment> payments;
