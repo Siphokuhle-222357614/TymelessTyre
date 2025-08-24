@@ -3,7 +3,7 @@ package za.co.tt.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.tt.domain.Tyre;
-import za.co.tt.service.TyreService;
+import za.co.tt.service.ITyreService;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/tyres")
 public class TyreController {
 
-    private final TyreService tyreService;
+    private final ITyreService tyreService;
 
-    public TyreController(TyreService tyreService) {
+    public TyreController(ITyreService tyreService) {
         this.tyreService = tyreService;
     }
 

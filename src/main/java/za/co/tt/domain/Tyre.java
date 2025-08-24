@@ -14,6 +14,7 @@ public class Tyre {
     private Long id;
     private String brandName;
     private String tyreType;
+    private int tyreSize;
     private int aspectRatio;
     private int width;
     private float wheelDiameter;
@@ -34,6 +35,7 @@ public class Tyre {
         this.id = builder.id;
         this.brandName = builder.brandName;
         this.tyreType = builder.tyreType;
+        this.tyreSize = builder.tyreSize;
         this.aspectRatio = builder.aspectRatio;
         this.width = builder.width;
         this.wheelDiameter = builder.wheelDiameter;
@@ -59,6 +61,8 @@ public class Tyre {
     public String getTyreType() {
         return tyreType;
     }
+
+    public int getTyreSize() {return tyreSize; }
 
     public int getAspectRatio() {
         return aspectRatio;
@@ -108,12 +112,77 @@ public class Tyre {
         return imageUrl;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public void setTyreType(String tyreType) {
+        this.tyreType = tyreType;
+    }
+
+    public void setTyreSize(int tyreSize) {
+        this.tyreSize = tyreSize;
+    }
+
+    public void setAspectRatio(int aspectRatio) {
+        this.aspectRatio = aspectRatio;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setWheelDiameter(float wheelDiameter) {
+        this.wheelDiameter = wheelDiameter;
+    }
+
+    public void setMaxLoad(int maxLoad) {
+        this.maxLoad = maxLoad;
+    }
+
+    public void setSpeedRating(String speedRating) {
+        this.speedRating = speedRating;
+    }
+
+    public void setTyrePressure(float tyrePressure) {
+        this.tyrePressure = tyrePressure;
+    }
+
+    public void setTyreCode(String tyreCode) {
+        this.tyreCode = tyreCode;
+    }
+
+    public void setEoMark(String eoMark) {
+        this.eoMark = eoMark;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Tyre{" +
                 "id=" + id +
                 ", brandName='" + brandName + '\'' +
                 ", tyreType='" + tyreType + '\'' +
+                ", tyreSize=" + tyreSize +
                 ", aspectRatio=" + aspectRatio +
                 ", width=" + width +
                 ", wheelDiameter=" + wheelDiameter +
@@ -130,21 +199,22 @@ public class Tyre {
     }
 
     public static class Builder {
-        private Long id;
-        private String brandName;
-        private String tyreType;
-        private int aspectRatio;
-        private int width;
-        private float wheelDiameter;
-        private int maxLoad;
-        private String speedRating;
-        private float tyrePressure;
-        private String tyreCode;
-        private String eoMark;
-        private String description;
-        private BigDecimal price;
-        private int stockQuantity;
-        private String imageUrl;
+        public Long id;
+        public String brandName;
+        public String tyreType;
+        public int tyreSize;
+        public int aspectRatio;
+        public int width;
+        public float wheelDiameter;
+        public int maxLoad;
+        public String speedRating;
+        public float tyrePressure;
+        public String tyreCode;
+        public String eoMark;
+        public String description;
+        public BigDecimal price;
+        public int stockQuantity;
+        public String imageUrl;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -158,6 +228,11 @@ public class Tyre {
 
         public Builder setTyreType(String tyreType) {
             this.tyreType = tyreType;
+            return this;
+        }
+
+        public Builder setTyreSize(int tyreSize) {
+            this.tyreSize = tyreSize;
             return this;
         }
 
