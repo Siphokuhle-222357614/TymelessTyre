@@ -1,14 +1,12 @@
 package za.co.tt.service;
 
 import za.co.tt.domain.Rim;
+import java.util.List;
 
-public interface IRimService extends IService<Rim, Long> {
-
-    Rim create(Rim rim);
-
-    Rim read(Long rimId);
-
-    Rim update(Rim rim);
-
-    Rim delete(Long rimId);
+public interface IRimService {
+    List<Rim> getAllRims();
+    Rim getRimById(Long id);
+    Rim createRim(Rim rim);
+    Rim updateRim(Long id, Rim rim);
+    void deleteRim(Long id);
 }

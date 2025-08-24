@@ -3,7 +3,7 @@ package za.co.tt.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.tt.domain.Rim;
-import za.co.tt.service.RimService;
+import za.co.tt.service.IRimService;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/rims")
 public class RimController {
 
-    private final RimService rimService;
+    private final IRimService rimService;
 
-    public RimController(RimService rimService) {
+    public RimController(IRimService rimService) {
         this.rimService = rimService;
     }
 

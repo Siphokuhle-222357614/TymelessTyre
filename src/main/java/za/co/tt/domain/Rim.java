@@ -12,6 +12,7 @@ public class Rim {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String brandName;
     private String manufactureCode;
     private float rimSize;
     private String boltPattern;
@@ -26,6 +27,7 @@ public class Rim {
 
     public Rim(Builder builder) {
         this.id = builder.id;
+        this.brandName = builder.brandName;
         this.manufactureCode = builder.manufactureCode;
         this.rimSize = builder.rimSize;
         this.boltPattern = builder.boltPattern;
@@ -39,6 +41,8 @@ public class Rim {
     public Long getId() {
         return id;
     }
+
+    public String getBrandName() {return brandName; }
 
     public String getManufactureCode() {
         return manufactureCode;
@@ -68,6 +72,46 @@ public class Rim {
         return stockQuantity;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public void setManufactureCode(String manufactureCode) {
+        this.manufactureCode = manufactureCode;
+    }
+
+    public void setRimSize(float rimSize) {
+        this.rimSize = rimSize;
+    }
+
+    public void setBoltPattern(String boltPattern) {
+        this.boltPattern = boltPattern;
+    }
+
+    public void setBoltCount(int boltCount) {
+        this.boltCount = boltCount;
+    }
+
+    public void setBoltSpacing(float boltSpacing) {
+        this.boltSpacing = boltSpacing;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -76,6 +120,7 @@ public class Rim {
     public String toString() {
         return "Rim{" +
                 "id=" + id +
+                ", brandName='" + brandName + '\'' +
                 ", manufactureCode='" + manufactureCode + '\'' +
                 ", rimSize=" + rimSize +
                 ", boltPattern='" + boltPattern + '\'' +
@@ -89,6 +134,7 @@ public class Rim {
 
     public static class Builder {
         private Long id;
+        private String brandName;
         private String manufactureCode;
         private float rimSize;
         private String boltPattern;
@@ -100,6 +146,11 @@ public class Rim {
 
         public Builder setId(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setBrandName(String brandName) {
+            this.brandName = brandName;
             return this;
         }
 
