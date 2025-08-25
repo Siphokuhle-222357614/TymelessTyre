@@ -1,69 +1,34 @@
-// src/main/java/za/co/tt/controller/OrderItemController.java
 package za.co.tt.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.tt.domain.OrderItem;
-import za.co.tt.factory.OrderItemFactory;
-import za.co.tt.service.IOrderItemService;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
-@RequestMapping("/order-items")
+@RequestMapping("/orderItem")
 public class OrderItemController {
 
-    private final IOrderItemService service;
+    private final Map<String, OrderItem> orderItemDB = new HashMap<>();
 
-    public OrderItemController(IOrderItemService service) {
-        this.service = service;
+    @PostMapping("/create")
+    public OrderItem create(@RequestBody OrderItem orderItem) {
+        orderItemDB.put(orderItem.getId(), orderItem);
+        return orderItem;
     }
 
-    // 1) Create via JSON body
-    @PostMapping
-    public ResponseEntity<OrderItem> create(@RequestBody OrderItem body) {
-        // if client didn't send id, create one
-        OrderItem item = (body.getId() == null || body.getId().isBlank())
-                ? OrderItemFactory.create(body.getCategory(), body.getProductName(), body.getQuantity(), body.getPrice())
-                : OrderItemFactory.create(body.getId(), body.getCategory(), body.getProductName(), body.getQuantity(), body.getPrice());
-        return ResponseEntity.ok(service.save(item));
+    @GetMapping("/read/{id}")
+    public OrderItem read(@PathVariable String id) {
+        return orderItemDB.get(id);
     }
 
-    // 2) Create via simple params (super simple for demos/lecturers)
-    @PostMapping("/simple")
-    public ResponseEntity<OrderItem> createSimple(@RequestParam String id,
-                                                  @RequestParam String category,
-                                                  @RequestParam String productName,
-                                                  @RequestParam int quantity,
-                                                  @RequestParam double price) {
-        OrderItem item = OrderItemFactory.create(id, category, productName, quantity, price);
-        return ResponseEntity.ok(service.save(item));
+    @GetMapping("/getAll")
+    public List<OrderItem> getAll() {
+        return new ArrayList<>(orderItemDB.values());
     }
 
-    // 3) Read all
-    @GetMapping
-    public ResponseEntity<List<OrderItem>> getAll() {
-        return ResponseEntity.ok(service.findAll());
-    }
-
-    // 4) Read one
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderItem> getById(@PathVariable String id) {
-        return ResponseEntity.ok(
-                service.findById(id).orElseThrow(() -> new RuntimeException("OrderItem not found: " + id))
-        );
-    }
-
-    // 5) Update
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderItem> update(@PathVariable String id, @RequestBody OrderItem body) {
-        return ResponseEntity.ok(service.update(id, body));
-    }
-
-    // 6) Delete
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@PathVariable String id) {
+        return orderItemDB.remove(id) != null;
     }
 }
