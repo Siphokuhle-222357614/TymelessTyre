@@ -1,6 +1,8 @@
 package za.co.tt.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
@@ -15,7 +17,7 @@ public class Cart {
     private Long cartId;
     private boolean isActive;
 
-    // @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId")
     private User user;
     @CreationTimestamp
     private LocalDate createdAt;
@@ -120,14 +122,5 @@ public class Cart {
         this.item  = cart.item;
         return this;
     }
+
     public Cart build(){ return new Cart(builder: this);}
-
-}
-
-
-/*
-public long getCartId() {
-        return cartId;
-    }
-}
-*/
