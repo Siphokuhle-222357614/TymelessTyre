@@ -3,7 +3,7 @@
  * Student number: 222582731
  * */
 
-package factoryTest;
+package za.co.tt.factoryTest;
 
 import org.junit.jupiter.api.Test;
 import za.co.tt.domain.Address;
@@ -13,8 +13,8 @@ import za.co.tt.factory.UserFactory;
 
 import java.time.LocalDate;
 
-import static factoryTest.UserFactoryTest.addressList;
-import static factoryTest.UserFactoryTest.paymentsList;
+import static za.co.tt.factoryTest.UserFactoryTest.addressList;
+import static za.co.tt.factoryTest.UserFactoryTest.paymentsList;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static za.co.tt.domain.UserRole.CUSTOMER;
 

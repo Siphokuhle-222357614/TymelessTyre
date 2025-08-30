@@ -1,4 +1,4 @@
-package serviceTest;
+package za.co.tt.serviceTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

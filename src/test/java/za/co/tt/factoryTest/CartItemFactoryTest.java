@@ -1,5 +1,5 @@
 /*Author: Bonke Bulana*/
-package factoryTest;
+package za.co.tt.factoryTest;
 
 import org.junit.jupiter.api.Test;
 import za.co.tt.domain.CartItem;

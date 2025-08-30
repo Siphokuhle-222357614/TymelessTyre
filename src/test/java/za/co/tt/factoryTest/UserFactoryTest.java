@@ -3,7 +3,7 @@
  * Student number: 222582731
  * */
 
-package factoryTest;
+package za.co.tt.factoryTest;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

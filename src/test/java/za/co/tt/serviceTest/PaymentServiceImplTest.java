@@ -1,5 +1,5 @@
 /*Author: Bonke Bulana - 220539995*/
-package serviceTest;
+package za.co.tt.serviceTest;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
