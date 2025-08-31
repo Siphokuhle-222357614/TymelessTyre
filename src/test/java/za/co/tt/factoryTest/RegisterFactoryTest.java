@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RegisterFactoryTest {
 
-    Register register1 = RegisterFactory.createRegister(null, "John", "Stevens", "johnST@gmail.com",
-            "JoHN772", false, true, LocalDate.now()
+    Register register1 = RegisterFactory.createRegister(30578L, "John", "Stevens", "johnST@gmail.com",
+            null, false, true, LocalDate.now()
     );
 
-    Register register2 = RegisterFactory.createRegister(30474L, "Alice", "Smith",
-            "alicesmith@gmail.com", "ZEroden456", true, true, LocalDate.now()
+    Register register2 = RegisterFactory.createRegister(30474L, "Samkelo", "Smith",
+            "samkelosmith@gmail.com", "ZEroden456", true, true, LocalDate.now()
     );
 
 
