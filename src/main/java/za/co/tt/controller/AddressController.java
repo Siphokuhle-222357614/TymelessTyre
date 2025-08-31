@@ -5,13 +5,16 @@
 package za.co.tt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import za.co.tt.domain.Address;
 import za.co.tt.service.impl.AddressServiceImpl;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/address")
+@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "*")
+@RequestMapping("api/address")
 public class AddressController {
 
     private AddressServiceImpl service;
@@ -21,28 +24,28 @@ public class AddressController {
         this.service = service;
     }
 
-    @PostMapping("/create")
+    @PostMapping("api/create")
     public Address create(@RequestBody Address address) {
         return service.create(address);
     }
 
-    @GetMapping("/read/{id}")
+    @GetMapping("api/read/{id}")
     public Address read(@PathVariable Long id) {
         return service.read(id);
     }
 
-    @PostMapping("/update")
+    @PostMapping("api/update")
     public Address update(@RequestBody Address address) {
         return service.update(address);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("api/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         service.delete(id);
         return true;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("api/getAll")
     public List<Address> getAll() {
         return service.findAll();
     }

@@ -1,16 +1,15 @@
 // src/main/java/za/co/tt/domain/OrderItem.java
 package za.co.tt.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     // e.g. "Tyre", "Rim", "Accessory"
     private String category;
@@ -22,31 +21,24 @@ public class OrderItem {
     private double price;      // unit price
     private double total;      // computed = quantity * price
 
-    protected OrderItem() { }
+    public OrderItem() { }
 
-    public OrderItem(String id, String category, String productName, int quantity, double price) {
-        this.id = id;
-        this.category = category;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.price = price;
-        this.total = quantity * price;
+    public OrderItem(Builder builder){
+        this.id = builder.id;
+        this.category = builder.category;
+        this.productName = builder.productName;
+        this.quantity = builder.quantity;
+        this.price = builder.price;
+        this.total = builder.quantity * builder.price;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Long getId() { return id; }
 
     public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
 
     public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
 
     public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-        this.total = this.quantity * this.price;
-    }
 
     public double getPrice() { return price; }
     public void setPrice(double price) {
@@ -66,5 +58,42 @@ public class OrderItem {
                 ", price=" + price +
                 ", total=" + total +
                 '}';
+    }
+
+    public class Builder {
+        private Long id;
+        private String category;
+        private String productName;
+        private int quantity;
+        private double price;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder category(String category) {
+            this.category = category;
+            return this;
+        }
+
+        public Builder productName(String productName) {
+            this.productName = productName;
+            return this;
+        }
+
+        public Builder quantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder price(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public OrderItem build() {
+            return new OrderItem(this);
+        }
     }
 }

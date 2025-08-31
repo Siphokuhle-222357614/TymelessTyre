@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-08-31T16:43:25.400+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "path": "/tymelesstyre/user/create"
+}

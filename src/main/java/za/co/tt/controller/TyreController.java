@@ -2,12 +2,15 @@ package za.co.tt.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import za.co.tt.domain.Tyre;
 import za.co.tt.service.ITyreService;
 
 import java.util.List;
 
 @RestController
+//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/tyres")
 public class TyreController {
 
@@ -22,7 +25,7 @@ public class TyreController {
         return ResponseEntity.ok(tyreService.getAllTyres());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("api/{id}")
     public ResponseEntity<Tyre> getTyreById(@PathVariable Long id) {
         return ResponseEntity.ok(tyreService.getTyreById(id));
     }
@@ -32,14 +35,15 @@ public class TyreController {
         return ResponseEntity.ok(tyreService.createTyre(tyre));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("api/{id}")
     public ResponseEntity<Tyre> updateTyre(@PathVariable Long id, @RequestBody Tyre tyre) {
         return ResponseEntity.ok(tyreService.updateTyre(id, tyre));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("api/{id}")
     public ResponseEntity<Void> deleteTyre(@PathVariable Long id) {
         tyreService.deleteTyre(id);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -3,6 +3,8 @@ package za.co.tt.domain;
 
 import jakarta.persistence.*;
 
+@Entity
+@Table(name = "cart_items")
 public class CartItem {
 
         @Id

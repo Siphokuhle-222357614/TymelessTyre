@@ -5,12 +5,15 @@
 package za.co.tt.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import za.co.tt.domain.User;
 import za.co.tt.service.impl.UserServiceImpl;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("api/user")
 public class UserController {
 
     private UserServiceImpl service;
@@ -20,28 +23,28 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/create")
+    @PostMapping("api/create")
     public User create(@RequestBody User user) {
         return service.save(user);
     }
 
-    @GetMapping("/read/{id}")
+    @GetMapping("api/read/{id}")
     public User read(@PathVariable Long id) {
         return service.findById(id).orElse(null);
     }
 
-    @PostMapping("/update")
+    @PostMapping("api/update")
     public User update(@RequestBody User user) {
         return service.update(user.getUserId(), user);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("api/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         service.deleteById(id);
         return true;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("api/getAll")
     public List<User> getAll() {
         return service.findAll();
     }

@@ -28,7 +28,12 @@ public class Tyre {
     private int stockQuantity;
     private String imageUrl;
 
-    public Tyre() {}
+    public Tyre() {
+//    public String getName(){
+//        return this.brandName;
+//    }
+}
+
 
 
     public Tyre(Builder builder) {

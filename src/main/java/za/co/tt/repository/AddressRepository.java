@@ -14,6 +14,6 @@ import java.util.*;
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
 
-    Optional<Address> findByPostalCode(String postalCode);
+    Optional<Address> findByPostalCode(Integer postalCode);
     List<Address> findAllByCity(String city);
 }

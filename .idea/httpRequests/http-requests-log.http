@@ -1,0 +1,85 @@
+GET http://localhost:8080/tymelesstyre/api/user/api/getAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-08-31T194649.200.json
+
+###
+
+POST http://localhost:8080/tymelesstyre/api/user/api/create
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-08-31T194538.400.json
+
+###
+
+GET http://localhost:8080/tymelesstyre/user/getAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-08-31T184400.200.json
+
+###
+
+POST http://localhost:8080/tymelesstyre/user/create
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-08-31T184326.400.json
+
+###
+
+POST http://localhost:8080/tymelesstyre/api/rims
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-08-31T171848.400.json
+
+###
+
+GET http://localhost:8080/tymelesstyre/api/rims
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-08-31T171708.500.json
+
+###
+
+GET http://localhost:8080/tymelesstyre/payment/getAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-08-31T171546.200.json
+
+###
+
+GET http://localhost:8080/tymelesstyre/payment/read/
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-08-31T171515.404.json
+
+###
+
+POST http://localhost:8080/tymelesstyre/payment/create
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.1.4.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-08-31T170631.400.json
+
+###
+

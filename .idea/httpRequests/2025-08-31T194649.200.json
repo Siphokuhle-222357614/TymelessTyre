@@ -1,0 +1,18 @@
+[
+  {
+    "userId": 1,
+    "firstName": "Yanga",
+    "lastName": "Jilaji",
+    "email": "yanga.jilaji@example.com",
+    "password": "securePass123",
+    "phone": "0834567890",
+    "createdAt": "2025-08-31",
+    "role": "CUSTOMER",
+    "isActive": true,
+    "addresses": [],
+    "payments": [],
+    "orders": [],
+    "reviews": [],
+    "cart": null
+  }
+]

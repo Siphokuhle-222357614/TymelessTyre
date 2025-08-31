@@ -6,45 +6,43 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
-
 @Entity
-@Table(name="cart")
+@Table(name = "cart")
 public class Cart {
 
-    //Just placeholders to avoid errors, to be fixed by the owner of this entity..
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
+
     private boolean isActive;
 
-    @JoinColumn(name = "userId")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
     @CreationTimestamp
     private LocalDate createdAt;
+
     @UpdateTimestamp
     private LocalDate updatedAt;
-   // private DomainValidator.Item item;
 
-
-    public Cart() {
+    protected Cart() {
+        // JPA requires a default constructor
     }
 
     private Cart(Builder builder) {
-        this.id = builder.id;
-        this.createdAt = builder.createdAt;
+        this.cartId = builder.cartId;
         this.isActive = builder.isActive;
         this.user = builder.user;
+        this.createdAt = builder.createdAt;
         this.updatedAt = builder.updatedAt;
-        this.item = builder.item;
-
-
     }
 
-    public long getId() {
-        return id;
+    public Long getCartId() {
+        return cartId;
     }
 
-    public boolean getisActive() {
+    public boolean isActive() {
         return isActive;
     }
 
@@ -59,68 +57,61 @@ public class Cart {
     public LocalDate getUpdatedAt() {
         return updatedAt;
     }
-    public item getItem(){return item ;}
-
 
     @Override
     public String toString() {
         return "Cart{" +
-                "id=" + id +
+                "cartId=" + cartId +
                 ", isActive=" + isActive +
                 ", user=" + user +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", Item=" + item +
                 '}';
     }
 
     public static class Builder {
-        private long id;
+        private Long cartId;
         private boolean isActive;
         private User user;
         private LocalDate createdAt;
         private LocalDate updatedAt;
-        private item Item;
-        //private quatity
-    }
 
-    public Builder setId(Long id) {
-        this.id = id;
-        return this;
-    }
+        public Builder cartId(Long cartId) {
+            this.cartId = cartId;
+            return this;
+        }
 
-    public Builder setisActive(Boolean isActive) {
-        this.isActive = isActive;
-        return this;
-    }
+        public Builder isActive(boolean isActive) {
+            this.isActive = isActive;
+            return this;
+        }
 
-    public Builder setUser(User user) {
-        this.user = user;
-        return this;
-    }
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
 
-    public Builder setCreatAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
+        public Builder createdAt(LocalDate createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
 
-    public Builder setUpdatedAt(LocalDate updatedAtAt) {
-        this.updatedAt = updatedAtAt;
-        return this;
-    }
-    public Builder setItem(item Item){
-        this.Builder = Item;
-        return this;
-    }
+        public Builder updatedAt(LocalDate updatedAt) {
+            this.updatedAt = updatedAt;
+            return this;
+        }
 
-    public Builder copy(Cart cart) {
-        this.id = cart.id;
-        this.isActive = cart.isActive;
-        this.user = cart.user;
-        this.createdAt = cart.createdAt;
-        this.updatedAt = cart.updatedAt;
-        this.item  = cart.item;
-        return this;
-    }
+        public Builder copy(Cart cart) {
+            this.cartId = cart.cartId;
+            this.isActive = cart.isActive;
+            this.user = cart.user;
+            this.createdAt = cart.createdAt;
+            this.updatedAt = cart.updatedAt;
+            return this;
+        }
 
-    public Cart build(){ return new Cart(builder: this);}
+        public Cart build() {
+            return new Cart(this);
+        }
+    }
+}

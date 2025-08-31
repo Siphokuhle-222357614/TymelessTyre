@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-08-31T15:17:08.341+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/tymelesstyre/api/rims"
+}
