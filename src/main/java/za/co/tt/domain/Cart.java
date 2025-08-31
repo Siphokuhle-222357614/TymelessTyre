@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -15,41 +16,43 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
-    private boolean isActive;
-
-    @JoinColumn(name = "userId")
+    @OneToOne
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> items;
+
     @CreationTimestamp
     private LocalDate createdAt;
+
     @UpdateTimestamp
     private LocalDate updatedAt;
-   // private DomainValidator.Item item;
 
+    private Boolean isActive = true;
 
     public Cart() {
     }
 
     private Cart(Builder builder) {
-        this.id = builder.id;
-        this.createdAt = builder.createdAt;
-        this.isActive = builder.isActive;
+        this.cartId = builder.cartId;
         this.user = builder.user;
+        this.items = builder.items;
+        this.createdAt = builder.createdAt;
         this.updatedAt = builder.updatedAt;
-        this.item = builder.item;
-
-
+        this.isActive = builder.isActive;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public boolean getisActive() {
-        return isActive;
+    public Long getCartId() {
+        return cartId;
     }
 
     public User getUser() {
         return user;
+    }
+
+    public List<CartItem> getItems() {
+        return items;
     }
 
     public LocalDate getCreatedAt() {
@@ -59,68 +62,73 @@ public class Cart {
     public LocalDate getUpdatedAt() {
         return updatedAt;
     }
-    public item getItem(){return item ;}
 
+    public Boolean getIsActive() {
+        return isActive;
+    }
 
     @Override
     public String toString() {
         return "Cart{" +
-                "id=" + id +
-                ", isActive=" + isActive +
+                "cartId=" + cartId +
                 ", user=" + user +
+                ", items=" + items +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", Item=" + item +
+                ", isActive=" + isActive +
                 '}';
     }
 
     public static class Builder {
-        private long id;
-        private boolean isActive;
+        private Long cartId;
         private User user;
+        private List<CartItem> items;
         private LocalDate createdAt;
         private LocalDate updatedAt;
-        private item Item;
-        //private quatity
-    }
+        private Boolean isActive = true;
 
-    public Builder setId(Long id) {
-        this.id = id;
-        return this;
-    }
+        public Builder setCartId(Long cartId) {
+            this.cartId = cartId;
+            return this;
+        }
 
-    public Builder setisActive(Boolean isActive) {
-        this.isActive = isActive;
-        return this;
-    }
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
 
-    public Builder setUser(User user) {
-        this.user = user;
-        return this;
-    }
+        public Builder setItems(List<CartItem> items) {
+            this.items = items;
+            return this;
+        }
 
-    public Builder setCreatAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
+        public Builder setCreatedAt(LocalDate createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
 
-    public Builder setUpdatedAt(LocalDate updatedAtAt) {
-        this.updatedAt = updatedAtAt;
-        return this;
-    }
-    public Builder setItem(item Item){
-        this.Builder = Item;
-        return this;
-    }
+        public Builder setUpdatedAt(LocalDate updatedAt) {
+            this.updatedAt = updatedAt;
+            return this;
+        }
 
-    public Builder copy(Cart cart) {
-        this.id = cart.id;
-        this.isActive = cart.isActive;
-        this.user = cart.user;
-        this.createdAt = cart.createdAt;
-        this.updatedAt = cart.updatedAt;
-        this.item  = cart.item;
-        return this;
-    }
+        public Builder setIsActive(Boolean isActive) {
+            this.isActive = isActive;
+            return this;
+        }
 
-    public Cart build(){ return new Cart(builder: this);}
+        public Builder copy(Cart cart) {
+            this.cartId = cart.cartId;
+            this.user = cart.user;
+            this.items = cart.items;
+            this.createdAt = cart.createdAt;
+            this.updatedAt = cart.updatedAt;
+            this.isActive = cart.isActive;
+            return this;
+        }
+
+        public Cart build() {
+            return new Cart(this);
+        }
+    }
+}
