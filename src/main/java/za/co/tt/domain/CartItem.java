@@ -2,7 +2,8 @@
 package za.co.tt.domain;
 
 import jakarta.persistence.*;
-
+@Entity
+@Table(name = "cart_item")
 public class CartItem {
 
         @Id
@@ -24,7 +25,7 @@ public class CartItem {
     @JoinColumn(name = "rimId")
     private Rim rim;
 
-    protected CartItem() {
+    public CartItem() {
     }
 
     private CartItem(Builder builder) {

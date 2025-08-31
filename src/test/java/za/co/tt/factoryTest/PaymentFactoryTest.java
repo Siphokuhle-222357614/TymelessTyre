@@ -2,7 +2,9 @@
 package za.co.tt.factoryTest;
 
 import org.junit.jupiter.api.Test;
+import za.co.tt.domain.Order;
 import za.co.tt.domain.Payment;
+import za.co.tt.domain.User;
 import za.co.tt.factory.PaymentFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,8 +12,8 @@ import java.time.LocalDate;
 
 class PaymentFactoryTest {
 
-    public static Payment payment1 = PaymentFactory.createPayment(123456, "Credit", "Rejected", 750, LocalDate.of(2025,7,11) , null, null);
-    public static Payment payment2 = PaymentFactory.createPayment(12345, "Debit", "Approved", 345, LocalDate.of(2024,13,12), null, null);
+    public static Payment payment1 = PaymentFactory.createPayment(123456, "Credit", "Rejected", 750, LocalDate.of(2025,7,11) , new User(), new Order());
+    public static Payment payment2 = PaymentFactory.createPayment(12345, "Debit", "Approved", 345, LocalDate.of(2024,12,12), null, null);
 
     @Test
     public void testCreateUserWithAllAttributes() {
