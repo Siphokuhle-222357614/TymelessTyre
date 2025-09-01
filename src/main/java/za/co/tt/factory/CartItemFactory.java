@@ -17,7 +17,7 @@ public class CartItemFactory {
                 .setCartItemId(cartItemId)
                 .setQuantity(quantity)
                 .setPrice(price)
-//                .setCart(cart)
+                .setCart(cart)
                 .setTyre(tyre)
                 .setRim(rim)
                 .build();
