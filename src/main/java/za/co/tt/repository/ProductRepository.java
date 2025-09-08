@@ -1,4 +1,7 @@
 package za.co.tt.repository;
 
-public class ProductRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import za.co.tt.domain.Product;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
 }

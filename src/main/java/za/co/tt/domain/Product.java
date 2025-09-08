@@ -1,15 +1,21 @@
 package za.co.tt.domain;
 
-import java.awt.image.BufferedImage;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "products")
 public class Product {
-    private String productId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long productId;
     private String productName;
     private String productDescription;
     private String productBrand;
     private double productPrice;
     private int productQuantity;
-    private BufferedImage productImage;
+    @Lob
+    private byte[] productImage;
 
     public Product(){
 
@@ -25,7 +31,7 @@ public class Product {
         this.productImage = builder.productImage;
     }
 
-    public String getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
@@ -49,8 +55,36 @@ public class Product {
         return productQuantity;
     }
 
-    public BufferedImage getProductImage() {
+    public byte[] getProductImage() {
         return productImage;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public void setProductBrand(String productBrand) {
+        this.productBrand = productBrand;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public void setProductImage(byte[] productImage) {
+        this.productImage = productImage;
     }
 
     @Override
@@ -67,15 +101,15 @@ public class Product {
     }
 
     public static class Builder {
-        private String productId;
+        private Long productId;
         private String productName;
         private String productDescription;
         private String productBrand;
         private double productPrice;
         private int productQuantity;
-        private BufferedImage productImage;
+        private byte[] productImage;
 
-        public Builder setProductId(String productId) {
+        public Builder setProductId(Long productId) {
             this.productId = productId;
             return this;
         }
@@ -105,7 +139,7 @@ public class Product {
             return this;
         }
 
-        public Builder setProductImage(BufferedImage productImage) {
+        public Builder setProductImage(byte[] productImage) {
             this.productImage = productImage;
             return this;
         }

@@ -1,6 +1,11 @@
 package za.co.tt.util;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Helper {
 
@@ -53,5 +58,9 @@ public class Helper {
         return password != null && password.matches(passwordRegex);
     }
 
-
+    public static byte[] bufferedImageToByteArray(BufferedImage image, String format) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, format, baos);
+        return baos.toByteArray();
+    }
 }
