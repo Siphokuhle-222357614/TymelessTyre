@@ -22,7 +22,6 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CartItem> items = new ArrayList<>();
 
-
     @CreationTimestamp
     private LocalDate createdAt;
 
