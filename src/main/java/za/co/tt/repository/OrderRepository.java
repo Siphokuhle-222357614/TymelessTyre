@@ -2,7 +2,8 @@ package za.co.tt.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import za.co.tt.domain.Admin;
+import za.co.tt.domain.Order;
+
 @Repository
-public interface AdminRepository extends JpaRepository<Admin, Long> {
+public interface OrderRepository extends JpaRepository<Order,Long> {
 }

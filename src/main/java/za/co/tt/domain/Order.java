@@ -1,87 +1,74 @@
 package za.co.tt.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
-@Table(name="order")
+@Table(name = "orders") // "order" is a reserved keyword in SQL
 public class Order {
     @Id
-    @GeneratedValue
-    private Long orderId;
+    private String orderId;
+
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems;
+    //
+    @ElementCollection
+    @CollectionTable(
+            name = "order_items",
+            joinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    @CreationTimestamp
-    private LocalDate orderDate;
 
-    @ManyToOne
-    @JoinColumn(name = "addressId", nullable = false)
-    private User address;
 
-    private String status;
-    private BigDecimal totalAmount;
-    private String paymentMethod;
+    private LocalDateTime orderDate;
+    private String orderStatus;
+    private double totalAmount;
 
     public Order() {}
 
-    private Order(Builder builder) {
+    public Order(Builder builder) {
         this.orderId = builder.orderId;
         this.user = builder.user;
         this.orderItems = builder.orderItems;
         this.orderDate = builder.orderDate;
-        this.address = builder.address;
-        this.status = builder.status;
+        this.orderStatus = builder.orderStatus;
         this.totalAmount = builder.totalAmount;
-        this.paymentMethod = builder.paymentMethod;
     }
 
-    public Long getOrderId() { return orderId; }
+    // Getters
+    public String getOrderId() { return orderId; }
     public User getUser() { return user; }
     public List<OrderItem> getOrderItems() { return orderItems; }
-    public LocalDate getOrderDate() { return orderDate; }
-    public Address getShippingAddress() {
-        return shippingAddress;
-    }
-    public String getStatus() { return status; }
-    public BigDecimal getTotalAmount() { return totalAmount; }
-    public String getPaymentMethod() { return paymentMethod; }
+    public LocalDateTime getOrderDate() { return orderDate; }
+    public String getOrderStatus() { return orderStatus; }
+    public double getTotalAmount() { return totalAmount; }
 
     @Override
     public String toString() {
         return "Order{" +
-                "orderId=" + orderId +
+                "orderId='" + orderId + '\'' +
                 ", user=" + user +
                 ", orderItems=" + orderItems +
                 ", orderDate=" + orderDate +
-                ", shippingAddress=" + shippingAddress +
-                ", status='" + status + '\'' +
+                ", orderStatus='" + orderStatus + '\'' +
                 ", totalAmount=" + totalAmount +
-                ", paymentMethod='" + paymentMethod + '\'' +
                 '}';
     }
 
     public static class Builder {
-        private Long orderId;
+        private String orderId;
         private User user;
         private List<OrderItem> orderItems;
-        private LocalDate orderDate;
-        private Address shippingAddress;
-        private String status;
-        private BigDecimal totalAmount;
-        private String paymentMethod;
+        private LocalDateTime orderDate;
+        private String orderStatus;
+        private double totalAmount;
 
-        public Builder setOrderId(Long orderId) {
+        public Builder setOrderId(String orderId) {
             this.orderId = orderId;
             return this;
         }
@@ -96,28 +83,18 @@ public class Order {
             return this;
         }
 
-        public Builder setOrderDate(LocalDate orderDate) {
+        public Builder setOrderDate(LocalDateTime orderDate) {
             this.orderDate = orderDate;
             return this;
         }
 
-        public Builder setShippingAddress(Address shippingAddress) {
-            this.shippingAddress = shippingAddress;
+        public Builder setOrderStatus(String orderStatus) {
+            this.orderStatus = orderStatus;
             return this;
         }
 
-        public Builder setStatus(String status) {
-            this.status = status;
-            return this;
-        }
-
-        public Builder setTotalAmount(BigDecimal totalAmount) {
+        public Builder setTotalAmount(double totalAmount) {
             this.totalAmount = totalAmount;
-            return this;
-        }
-
-        public Builder setPaymentMethod(String paymentMethod) {
-            this.paymentMethod = paymentMethod;
             return this;
         }
 
@@ -126,10 +103,8 @@ public class Order {
             this.user = order.user;
             this.orderItems = order.orderItems;
             this.orderDate = order.orderDate;
-            this.shippingAddress = order.shippingAddress;
-            this.status = order.status;
+            this.orderStatus = order.orderStatus;
             this.totalAmount = order.totalAmount;
-            this.paymentMethod = order.paymentMethod;
             return this;
         }
 
