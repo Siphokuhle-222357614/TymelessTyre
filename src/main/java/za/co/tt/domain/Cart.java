@@ -19,7 +19,11 @@ public class Cart {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ElementCollection
+    @CollectionTable(
+            name = "cart_items",
+            joinColumns = @JoinColumn(name = "cart_id")
+    )
     private List<CartItem> items = new ArrayList<>();
 
     @CreationTimestamp
@@ -28,8 +32,9 @@ public class Cart {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    private Boolean isActive = true;
-    //qauntity
+    private Boolean isActive;
+
+
 
     public Cart() {
     }
@@ -85,7 +90,7 @@ public class Cart {
         private List<CartItem> items;
         private LocalDate createdAt;
         private LocalDate updatedAt;
-        private Boolean isActive = true;
+        private Boolean isActive;
 
         public Builder setCartId(Long cartId) {
             this.cartId = cartId;
