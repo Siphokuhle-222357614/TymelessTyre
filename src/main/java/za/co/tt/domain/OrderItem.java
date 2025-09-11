@@ -1,13 +1,22 @@
 package za.co.tt.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "order_Item")
 public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String orderItemId;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Product product;
     private int quantity;
     private double unitPrice;
     private double totalPrice;
 
-    public OrderItem() {}
+    public OrderItem() {
+    }
 
     public OrderItem(Builder builder) {
         this.orderItemId = builder.orderItemId;
