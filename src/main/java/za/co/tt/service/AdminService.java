@@ -1,26 +1,32 @@
-package za.co.tt.Serice;
+package za.co.tt.service;
 
 import za.co.tt.domain.Admin;
-import za.co.tt.domain.Product;
-import za.co.tt.domain.OrderItem;
-import za.co.tt.repository.ProductRepository;
-import za.co.tt.repository.OrderItemRepository;
 import java.util.List;
 
-public class AdminService {
-    private ProductRepository productRepository;
-    private OrderItemRepository orderItemRepository;
+public class AdminService implements IAdminService {
 
-    public AdminService(ProductRepository productRepository, OrderItemRepository orderItemRepository) {
-        this.productRepository = productRepository;
-        this.orderItemRepository = orderItemRepository;
+    @Override
+    public Admin save(Admin entity) {
+        return null;
     }
 
-    public List<Product> viewAllProducts() {
-        return productRepository.getAllProducts();
+    @Override
+    public Admin update(Admin enity) {
+        return null;
     }
 
-    public List<OrderItem> viewAllOrderItems() {
-        return orderItemRepository.getAllOrderItems();
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
+    @Override
+    public Admin read(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Admin> findAll() {
+        return List.of();
     }
 }

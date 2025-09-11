@@ -1,11 +1,26 @@
 package za.co.tt.domain;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name ="reviews")
 public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String reviewId;
     private String reviewerName;
     private String comment;
-    private int rating; // 1-5 stars
+    private int rating;
+
+    @ManyToOne
+    @JoinColumn(name = "product_product_id")
     private Product product;
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public Review() {}
 
@@ -46,6 +61,18 @@ public class Review {
         public Builder setComment(String comment) { this.comment = comment; return this; }
         public Builder setRating(int rating) { this.rating = rating; return this; }
         public Builder setProduct(Product product) { this.product = product; return this; }
-        public Review build() { return new Review(this); }
+
+        public Builder copy(Review review) {
+            this.reviewId = review.reviewId;
+            this.reviewerName = review.reviewerName;
+            this.comment = review.comment;
+            this.rating = review.rating;
+            this.product = review.product;
+            return this;
+        }
+
+        public Review build() {
+            return new Review(this);
+        }
     }
 }
