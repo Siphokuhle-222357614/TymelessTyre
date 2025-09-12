@@ -9,6 +9,7 @@ import za.co.tt.service.UserService;
 
 import java.util.List;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -27,9 +28,16 @@ public class UserController {
     }
 
     @GetMapping("/read/{id}")
-    public User readUser(@PathVariable Long id){
-        return userService.read(id);
+    public ResponseEntity<User> readUser(@PathVariable Long id){
+        try {
+            User user = userService.read(id);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+
 
     @PostMapping("/update")
     public User updateUser(@RequestBody User user){

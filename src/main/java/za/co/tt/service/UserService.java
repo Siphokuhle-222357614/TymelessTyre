@@ -19,18 +19,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public Optional<User> findByAddress(String address) {
-        return userRepository.findByAddress(address);
     }
 
     @Override
@@ -44,8 +34,8 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User read(Long userId) {
-        return userRepository.findById(Math.toIntExact(userId)).orElse(null);
+    public User read(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -54,10 +44,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public void deleteById(Long userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("UserId cannot be null");
-        }
-        userRepository.deleteById(Math.toIntExact(userId));
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 }

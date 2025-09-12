@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserControllerTest {
 
-    private static User user = UserFactory.createUser(
+    private static final User user = UserFactory.createUser(
             "Bulo",
             "bulo@gmail.com",
             "password100");
@@ -45,6 +45,7 @@ public class UserControllerTest {
     }
 
 
+
     @Test
     void readUser() {
         String url = baseUrl + "/read/" + user.getUserId();
@@ -57,7 +58,7 @@ public class UserControllerTest {
 
     @Test
     void updateUser() {
-        User updated = new User.Builder().copy(user).setUsername("Rooney").build();
+        User updated = new User.Builder().copy(user).setUsername("Rowen").build();
         String url = baseUrl + "/update";
         System.out.println("URL: " + url);
         System.out.println("Updated user: " + updated);

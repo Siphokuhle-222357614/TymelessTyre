@@ -28,8 +28,9 @@ public class User {
     private LocalDateTime createdAt;
 
     public User() {
-        this.createdAt = LocalDateTime.now();
+        //this.createdAt = LocalDateTime.now();
     }
+
 
     private User(Builder builder) {
         this.userId = builder.userId;
@@ -132,8 +133,8 @@ public class User {
             this.username = user.username;
             this.email = user.email;
             this.password = user.password;
-            this.phoneNumber = phoneNumber;
-            this.address = address;
+            this.phoneNumber = user.phoneNumber;
+            this.address = user.address;
             this.createdAt = user.createdAt;
             return this;
         }

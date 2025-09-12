@@ -5,7 +5,9 @@ public class Admin {
     private String username;
     private String password;
 
-    public Admin() {}
+    public Admin() {
+
+    }
 
     public Admin(String adminId, String username, String password) {
         this.adminId = adminId;
