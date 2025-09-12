@@ -35,6 +35,14 @@ public class PaymentService implements IPaymentService {
         return repository.findById(id).orElse(null);
     }
 
+    public List<Payment> findPaymentsByUserId(Long userId) {
+        return repository.findByUser_UserId(userId);
+    }
+
+    public Payment findPaymentByOrderId(String orderId) {
+        return repository.findByOrder_OrderId(orderId);
+    }
+
     @Override
     public List<Payment> findAll() {
         return repository.findAll();
