@@ -1,33 +1,33 @@
 package za.co.tt.service;
 
 import za.co.tt.domain.Review;
+import org.springframework.stereotype.Service;
+import java.util.*;
 
-import java.util.List;
+@Service
+public class ReviewService {
 
-public class ReviewService implements IReviewService{
+    private final Map<String, Review> store = new HashMap<>();
 
-    @Override
-    public Review save(Review entity) {
-        return null;
+    public Review createReview(Review review) {
+        store.put(review.getReviewId(), review);
+        return review;
     }
 
-    @Override
-    public Review update(Review enity) {
-        return null;
+    public Optional<Review> getReviewById(String id) {
+        return Optional.ofNullable(store.get(id));
     }
 
-    @Override
-    public void deleteById(Long aLong) {
-
+    public List<Review> getAllReviews() {
+        return new ArrayList<>(store.values());
     }
 
-    @Override
-    public Review read(Long aLong) {
-        return null;
+    public Review updateReview(Review review) {
+        store.put(review.getReviewId(), review);
+        return review;
     }
 
-    @Override
-    public List<Review> findAll() {
-        return List.of();
+    public void deleteReview(String id) {
+        store.remove(id);
     }
 }
