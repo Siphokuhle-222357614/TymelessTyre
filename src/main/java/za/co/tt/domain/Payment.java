@@ -16,13 +16,13 @@ public class Payment {
     private double amount;
     private LocalDate paymentDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "userId")
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "orderId")
-//    private Order order;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "orderId")
+    private Order order;
 
     protected Payment() {
     }
@@ -33,8 +33,8 @@ public class Payment {
         this.paymentStatus = builder.paymentStatus;
         this.amount = builder.amount;
         this.paymentDate = builder.paymentDate;
-//        this.user = builder.user;
-//        this.order = builder.order;
+        this.user = builder.user;
+        this.order = builder.order;
     }
 
     public long getPaymentId() {
@@ -57,13 +57,13 @@ public class Payment {
         return paymentDate;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public Order getOrder() {
-//        return order;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
 
     @Override
     public String toString() {
@@ -73,8 +73,8 @@ public class Payment {
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", amount=" + amount +
                 ", paymentDate=" + paymentDate +
-//                ", user=" + (user != null ? user.getUserId() : null) +
-////                ", order=" + (order != null ? order.getOrderID() : null) +
+                ", user=" + (user != null ? user.getUserId() : null) +
+                ", order=" + (order != null ? order.getOrderId() : null) +
                 '}';
     }
 
@@ -84,8 +84,8 @@ public class Payment {
         private String paymentStatus;
         private double amount;
         private LocalDate paymentDate;
-//        private User user;
-//        private Order order;
+        private User user;
+        private Order order;
 
         public Builder setPaymentId(long paymentId) {
             this.paymentId = paymentId;
@@ -112,15 +112,15 @@ public class Payment {
             return this;
         }
 
-//        public Builder setUser(User user) {
-//            this.user = user;
-//            return this;
-//        }
-//
-//        public Builder setOrder(Order order) {
-//            this.order = order;
-//            return this;
-//        }
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setOrder(Order order) {
+            this.order = order;
+            return this;
+        }
 
         public Builder copy(Payment payment) {
             this.paymentId = payment.paymentId;
@@ -128,8 +128,8 @@ public class Payment {
             this.paymentStatus = payment.paymentStatus;
             this.amount = payment.amount;
             this.paymentDate = payment.paymentDate;
-//            this.user = payment.user;
-//            this.order = payment.order;
+            this.user = payment.user;
+            this.order = payment.order;
             return this;
         }
 

@@ -1,23 +1,28 @@
 package za.co.tt.factory;
 
+import za.co.tt.domain.Order;
 import za.co.tt.domain.Payment;
+import za.co.tt.domain.User;
 import za.co.tt.util.Helper;
 
 import java.time.LocalDate;
 
 public class PaymentFactory {
 
-    public static Payment createPayment(String paymentMethod, String paymentStatus, double amount, LocalDate paymentDate) {
+    public static Payment createPayment(String paymentMethod, String paymentStatus, double amount, LocalDate paymentDate, User user, Order order) {
         if (Helper.isNullOrEmpty(paymentMethod) || Helper.isNullOrEmpty(paymentStatus) ||
-                amount <= 0 || paymentDate == null || paymentDate.isAfter(LocalDate.now()) ) {
+                amount <= 0 || paymentDate == null || user == null || order == null || paymentDate.isAfter(LocalDate.now())) {
             return null;
         }
+
 
         return new Payment.Builder()
                 .setPaymentMethod(paymentMethod)
                 .setPaymentStatus(paymentStatus)
                 .setAmount(amount)
                 .setPaymentDate(paymentDate)
+                .setUser(user)
+                .setOrder(order)
                 .build();
     }
 }
