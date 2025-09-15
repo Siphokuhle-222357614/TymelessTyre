@@ -6,6 +6,7 @@ import za.co.tt.domain.User;
 import za.co.tt.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class AdminUserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         Optional<User> existingUser = userService.getById(id);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
@@ -40,18 +41,22 @@ public class AdminUserController {
             userService.save(user);
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .status(404)
+                    .body(Map.of("error", "User with ID " + id + " not found"));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         Optional<User> existingUser = userService.getById(id);
         if (existingUser.isPresent()) {
             userService.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(Map.of("message", "User with ID " + id + " deleted successfully"));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .status(404)
+                    .body(Map.of("error", "User with ID " + id + " not found"));
         }
     }
 }
