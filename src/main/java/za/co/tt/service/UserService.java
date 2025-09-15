@@ -87,4 +87,8 @@ public class UserService implements IUserService {
 
         return userRepository.save(user);
     }
+
+    public Optional<User> getById(Long id) {
+        return userRepository.findById(id);
+    }
 }

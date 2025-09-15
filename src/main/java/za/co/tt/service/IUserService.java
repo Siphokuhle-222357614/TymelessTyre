@@ -10,4 +10,6 @@ public interface IUserService extends IService<User, Long> {
     Optional<User> findByEmail(String email);
     List<User> findByRole(String role);
     Optional<User> findByUsernameAndRole(String username, String role);
+    List<User> findAll();
+    Optional<User> getById(Long id);
 }
