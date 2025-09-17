@@ -1,6 +1,7 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import za.co.tt.domain.Cart;
 import za.co.tt.repository.CartRepository;
@@ -35,16 +36,25 @@ public class CartService implements ICartService {
 
 
     @Override
-    public void deleteById(Long id) {
+    public ResponseEntity<Cart> deleteById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id cannot be null");
         }
         cartRepository.deleteById(id);
 
+        return ResponseEntity.noContent().build();
     }
 
     @Override
     public List<Cart> findAll() {
+        return cartRepository.findAll();
+    }
+
+    public Cart createCart(Cart cart) {
+        return cartRepository.save(cart);
+    }
+
+    public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
 }
