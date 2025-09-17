@@ -1,26 +1,21 @@
 package za.co.tt.domain;
 
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name ="reviews")
 public class Review {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String reviewId;
+    private Long reviewId;
+
     private String reviewerName;
     private String comment;
     private int rating;
 
     @ManyToOne
-    @JoinColumn(name = "product_product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 
     public Review() {}
 
@@ -32,11 +27,21 @@ public class Review {
         this.product = builder.product;
     }
 
-    public String getReviewId() { return reviewId; }
+    // Getters and setters
+    public Long getReviewId() { return reviewId; }
+    public void setReviewId(Long reviewId) { this.reviewId = reviewId; }
+
     public String getReviewerName() { return reviewerName; }
+    public void setReviewerName(String reviewerName) { this.reviewerName = reviewerName; }
+
     public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+
     public int getRating() { return rating; }
+    public void setRating(int rating) { this.rating = rating; }
+
     public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
 
     @Override
     public String toString() {
@@ -45,18 +50,18 @@ public class Review {
                 ", reviewerName='" + reviewerName + '\'' +
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
-                ", product=" + (product != null ? product.getProductName() : "null") +
+                ", product=" + (product != null ? product.getBrand() : "null") +
                 '}';
     }
 
     public static class Builder {
-        private String reviewId;
+        private Long reviewId;
         private String reviewerName;
         private String comment;
         private int rating;
         private Product product;
 
-        public Builder setReviewId(String reviewId) { this.reviewId = reviewId; return this; }
+        public Builder setReviewId(Long reviewId) { this.reviewId = reviewId; return this; }
         public Builder setReviewerName(String reviewerName) { this.reviewerName = reviewerName; return this; }
         public Builder setComment(String comment) { this.comment = comment; return this; }
         public Builder setRating(int rating) { this.rating = rating; return this; }

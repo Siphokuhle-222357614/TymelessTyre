@@ -1,6 +1,13 @@
 package za.co.tt.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
+import za.co.tt.domain.Enum.*;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -8,152 +15,154 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
-    private String productName;
-    private String productDescription;
-    private String productBrand;
-    private double productPrice;
-    private int productQuantity;
-    @Lob
-    private byte[] productImage;
+    private Long id;
 
-    public Product(){
+    private String brand;
+    private String model;
+    private Integer width;
+    private Integer aspectRatio;
+    private Integer rimDiameter;
 
+    @Enumerated(EnumType.STRING)
+    private Season season;
+
+    @Enumerated(EnumType.STRING)
+    private VehicleType vehicleType;
+
+    private BigDecimal price;
+    private Integer stockQuantity;
+    private String imageUrl;
+    private String description;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ProductFitment> fitments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<ProductFitment> fitmentReferences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    // Constructors
+    public Product() {}
+
+    public Product(Builder builder) {
+        this.id = builder.id;
+        this.brand = builder.brand;
+        this.model = builder.model;
+        this.width = builder.width;
+        this.aspectRatio = builder.aspectRatio;
+        this.rimDiameter = builder.rimDiameter;
+        this.season = builder.season;
+        this.vehicleType = builder.vehicleType;
+        this.price = builder.price;
+        this.stockQuantity = builder.stockQuantity;
+        this.imageUrl = builder.imageUrl;
+        this.description = builder.description;
+        this.fitments = builder.fitments != null ? builder.fitments : new ArrayList<>();
     }
 
-    public Product(Builder builder){
-        this.productId = builder.productId;
-        this.productName = builder.productName;
-        this.productDescription = builder.productDescription;
-        this.productBrand = builder.productBrand;
-        this.productPrice = builder.productPrice;
-        this.productQuantity = builder.productQuantity;
-        this.productImage = builder.productImage;
+    // Getters and setters
+
+    public Long getId() {
+        return id;
     }
 
-    public Long getProductId() {
-        return productId;
+    public String getBrand() {
+        return brand;
+    }
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getModel() {
+        return model;
     }
+    public void setModel(String model) { this.model = model; }
 
-    public String getProductDescription() {
-        return productDescription;
-    }
+    public Integer getWidth() { return width; }
+    public void setWidth(Integer width) { this.width = width; }
 
-    public String getProductBrand() {
-        return productBrand;
-    }
+    public Integer getAspectRatio() { return aspectRatio; }
+    public void setAspectRatio(Integer aspectRatio) { this.aspectRatio = aspectRatio; }
 
-    public double getProductPrice() {
-        return productPrice;
-    }
+    public Integer getRimDiameter() { return rimDiameter; }
+    public void setRimDiameter(Integer rimDiameter) { this.rimDiameter = rimDiameter; }
 
-    public int getProductQuantity() {
-        return productQuantity;
-    }
+    public Season getSeason() { return season; }
+    public void setSeason(Season season) { this.season = season; }
 
-    public byte[] getProductImage() {
-        return productImage;
-    }
+    public VehicleType getVehicleType() { return vehicleType; }
+    public void setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+    public Integer getStockQuantity() { return stockQuantity; }
+    public void setStockQuantity(Integer stockQuantity) { this.stockQuantity = stockQuantity; }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public void setProductBrand(String productBrand) {
-        this.productBrand = productBrand;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public void setProductQuantity(int productQuantity) {
-        this.productQuantity = productQuantity;
-    }
-
-    public void setProductImage(byte[] productImage) {
-        this.productImage = productImage;
-    }
+    public List<ProductFitment> getFitments() { return fitments; }
+    public void setFitments(List<ProductFitment> fitments) { this.fitments = fitments; }
 
     @Override
     public String toString() {
         return "Product{" +
-                "productId='" + productId + '\'' +
-                ", productName='" + productName + '\'' +
-                ", productDescription='" + productDescription + '\'' +
-                ", productBrand='" + productBrand + '\'' +
-                ", productPrice=" + productPrice +
-                ", productQuantity=" + productQuantity +
-                ", productImage=" + productImage +
+                "id=" + id +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", width=" + width +
+                ", aspectRatio=" + aspectRatio +
+                ", rimDiameter=" + rimDiameter +
+                ", season=" + season +
+                ", vehicleType=" + vehicleType +
+                ", price=" + price +
+                ", stockQuantity=" + stockQuantity +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", fitments=" + fitments +
                 '}';
     }
 
+    // Builder
     public static class Builder {
-        private Long productId;
-        private String productName;
-        private String productDescription;
-        private String productBrand;
-        private double productPrice;
-        private int productQuantity;
-        private byte[] productImage;
+        private Long id;
+        private String brand;
+        private String model;
+        private Integer width;
+        private Integer aspectRatio;
+        private Integer rimDiameter;
+        private Season season;
+        private VehicleType vehicleType;
+        private BigDecimal price;
+        private Integer stockQuantity;
+        private String imageUrl;
+        private String description;
+        private List<ProductFitment> fitments;
 
-        public Builder setProductId(Long productId) {
-            this.productId = productId;
-            return this;
-        }
+        public Builder() {}
 
-        public Builder setProductName(String productName) {
-            this.productName = productName;
-            return this;
-        }
+        public Builder setId(Long id) { this.id = id; return this; }
+        public Builder setBrand(String brand) { this.brand = brand; return this; }
+        public Builder setModel(String model) { this.model = model; return this; }
+        public Builder setWidth(Integer width) { this.width = width; return this; }
+        public Builder setAspectRatio(Integer aspectRatio) { this.aspectRatio = aspectRatio; return this; }
+        public Builder setRimDiameter(Integer rimDiameter) { this.rimDiameter = rimDiameter; return this; }
+        public Builder setSeason(Season season) { this.season = season; return this; }
+        public Builder setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; return this; }
+        public Builder setPrice(BigDecimal price) { this.price = price; return this; }
+        public Builder setStockQuantity(Integer stockQuantity) { this.stockQuantity = stockQuantity; return this; }
+        public Builder setImageUrl(String imageUrl) { this.imageUrl = imageUrl; return this; }
+        public Builder setDescription(String description) { this.description = description; return this; }
+        public Builder setFitments(List<ProductFitment> fitments) { this.fitments = fitments; return this; }
 
-        public Builder setProductDescription(String productDescription) {
-            this.productDescription = productDescription;
-            return this;
-        }
-
-        public Builder setProductBrand(String productBrand) {
-            this.productBrand = productBrand;
-            return this;
-        }
-
-        public Builder setProductPrice(double productPrice) {
-            this.productPrice = productPrice;
-            return this;
-        }
-
-        public Builder setProductQuantity(int productQuantity) {
-            this.productQuantity = productQuantity;
-            return this;
-        }
-
-        public Builder setProductImage(byte[] productImage) {
-            this.productImage = productImage;
-            return this;
-        }
-
-        public Product build() {
-            Product product = new Product();
-            product.productId = this.productId;
-            product.productName = this.productName;
-            product.productDescription = this.productDescription;
-            product.productBrand = this.productBrand;
-            product.productPrice = this.productPrice;
-            product.productQuantity = this.productQuantity;
-            product.productImage = this.productImage;
-            return product;
-        }
+        public Product build() { return new Product(this); }
     }
 }

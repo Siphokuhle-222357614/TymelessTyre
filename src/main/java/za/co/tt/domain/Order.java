@@ -6,24 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders") // "order" is a reserved keyword in SQL
+@Table(name = "orders")
 public class Order {
     @Id
-    private String orderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long orderId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    //
-    @ElementCollection
-    @CollectionTable(
-            name = "order_items",
-            joinColumns = @JoinColumn(name = "order_id")
-    )
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
-
-
 
     private LocalDateTime orderDate;
     private String orderStatus;
@@ -40,13 +34,36 @@ public class Order {
         this.totalAmount = builder.totalAmount;
     }
 
-    // Getters
-    public String getOrderId() { return orderId; }
+    // Getters and setters
+    public Long getOrderId() { return orderId; }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
+
     public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
     public List<OrderItem> getOrderItems() { return orderItems; }
+    public void setOrderItems(List<OrderItem> orderItems) { this.orderItems = orderItems; }
+
     public LocalDateTime getOrderDate() { return orderDate; }
+    public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }
+
     public String getOrderStatus() { return orderStatus; }
+    public void setOrderStatus(String orderStatus) { this.orderStatus = orderStatus; }
+
     public double getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
+
+    // Helper method to add order items
+    public void addOrderItem(OrderItem item) {
+        orderItems.add(item);
+        item.setOrder(this);
+    }
+
+    // Helper method to remove order items
+    public void removeOrderItem(OrderItem item) {
+        orderItems.remove(item);
+        item.setOrder(null);
+    }
 
     @Override
     public String toString() {
@@ -61,14 +78,14 @@ public class Order {
     }
 
     public static class Builder {
-        private String orderId;
+        private Long orderId;
         private User user;
         private List<OrderItem> orderItems;
         private LocalDateTime orderDate;
         private String orderStatus;
         private double totalAmount;
 
-        public Builder setOrderId(String orderId) {
+        public Builder setOrderId(Long orderId) {
             this.orderId = orderId;
             return this;
         }

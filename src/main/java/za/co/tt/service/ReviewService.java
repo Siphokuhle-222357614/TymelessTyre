@@ -1,33 +1,67 @@
 package za.co.tt.service;
 
 import za.co.tt.domain.Review;
+import za.co.tt.repository.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class ReviewService {
+public class ReviewService implements IReviewService {
 
-    private final Map<String, Review> store = new HashMap<>();
+    private final ReviewRepository reviewRepository;
 
-    public Review createReview(Review review) {
-        store.put(review.getReviewId(), review);
-        return review;
+    @Autowired
+    public ReviewService(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
     }
 
-    public Optional<Review> getReviewById(String id) {
-        return Optional.ofNullable(store.get(id));
-    }
-
+    @Override
     public List<Review> getAllReviews() {
-        return new ArrayList<>(store.values());
+        return reviewRepository.findAll();
     }
 
-    public Review updateReview(Review review) {
-        store.put(review.getReviewId(), review);
-        return review;
+    @Override
+    public Optional<Review> getReviewById(Long id) {
+        return reviewRepository.findById(id);
     }
 
-    public void deleteReview(String id) {
-        store.remove(id);
+    @Override
+    public Review createReview(Review review) {
+        return reviewRepository.save(review);
+    }
+
+    @Override
+    public Review updateReview(Long id, Review review) {
+        if (!reviewRepository.existsById(id)) {
+            throw new RuntimeException("Review not found with id: " + id);
+        }
+        review.setReviewId(id);
+        return reviewRepository.save(review);
+    }
+
+    @Override
+    public void deleteReview(Long id) {
+        if (!reviewRepository.existsById(id)) {
+            throw new RuntimeException("Review not found with id: " + id);
+        }
+        reviewRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Review> getReviewsByProductId(Long productId) {
+        return reviewRepository.findByProduct_Id(productId);
+    }
+
+    @Override
+    public List<Review> getReviewsByRating(int rating) {
+        return reviewRepository.findByRating(rating);
+    }
+
+    @Override
+    public Double getAverageRatingByProductId(Long productId) {
+        return reviewRepository.findAverageRatingByProductId(productId);
     }
 }

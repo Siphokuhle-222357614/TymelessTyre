@@ -1,15 +1,23 @@
 package za.co.tt.domain;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-@Embeddable
+@Entity
+@Table(name = "order_items")
 public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Long productId;
     private int quantity;
     private BigDecimal price;
     private BigDecimal subtotal;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     public OrderItem() {}
 
@@ -20,6 +28,9 @@ public class OrderItem {
         this.subtotal = price.multiply(BigDecimal.valueOf(quantity));
     }
 
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public Long getProductId() { return productId; }
     public void setProductId(Long productId) { this.productId = productId; }
@@ -27,16 +38,22 @@ public class OrderItem {
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-        this.subtotal = this.price.multiply(BigDecimal.valueOf(quantity));
+        if (this.price != null) {
+            this.subtotal = this.price.multiply(BigDecimal.valueOf(quantity));
+        }
     }
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) {
         this.price = price;
-        this.subtotal = price.multiply(BigDecimal.valueOf(this.quantity));
+        if (this.quantity > 0) {
+            this.subtotal = price.multiply(BigDecimal.valueOf(this.quantity));
+        }
     }
 
     public BigDecimal getSubtotal() { return subtotal; }
+    public void setSubtotal(BigDecimal subtotal) { this.subtotal = subtotal; }
+
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
 }
-
-

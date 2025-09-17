@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderFactory {
 
-    public static Order createOrder(String orderId, User user, List<OrderItem> orderItems, LocalDateTime orderDate, String orderStatus, double totalAmount) {
+    public static Order createOrder(Long orderId, User user, List<OrderItem> orderItems, LocalDateTime orderDate, String orderStatus, double totalAmount) {
         return new Order.Builder()
                 .setOrderId(orderId)
                 .setUser(user)
@@ -19,7 +19,7 @@ public class OrderFactory {
                 .build();
     }
 
-    public static Order updateOrder(String orderId, User user, List<OrderItem> orderItems, LocalDateTime orderDate, String orderStatus, double totalAmount) {
+    public static Order updateOrder(Long orderId, User user, List<OrderItem> orderItems, LocalDateTime orderDate, String orderStatus, double totalAmount) {
         return new Order.Builder()
                 .setOrderId(orderId)
                 .setUser(user)
@@ -30,7 +30,7 @@ public class OrderFactory {
                 .build();
     }
 
-    public static Order deleteOrder(String orderId) {
+    public static Order deleteOrder(Long orderId) {
         return new Order.Builder()
                 .setOrderId(orderId)
                 .build();

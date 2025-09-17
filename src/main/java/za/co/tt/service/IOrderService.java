@@ -4,19 +4,12 @@ import za.co.tt.domain.Order;
 import java.util.List;
 import java.util.Optional;
 
-public interface IOrderService extends IService<Order, String> {
-
-    Order createOrder(Order order);
-
-    Optional<Order> getOrderById(String id);
-
+public interface IOrderService {
     List<Order> getAllOrders();
-
-    Order updateOrder(Order order);
-
-    void deleteOrder(String id);
-
-    void deleteById(Long id);
-
-    Order read(Long id);
+    Optional<Order> getOrderById(Long id);
+    Order createOrder(Order order);
+    Order updateOrder(Long id, Order order);
+    void deleteOrder(Long id);
+    List<Order> getOrdersByUserId(Long userId);
+    List<Order> getOrdersByStatus(String status);
 }

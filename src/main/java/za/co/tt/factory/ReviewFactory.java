@@ -1,7 +1,7 @@
 package za.co.tt.factory;
 
-import za.co.tt.domain.Review;
 import za.co.tt.domain.Product;
+import za.co.tt.domain.Review;
 
 public class ReviewFactory {
 
@@ -14,7 +14,7 @@ public class ReviewFactory {
                 .build();
     }
 
-    public static Review updateReview(String reviewId, String reviewerName, String comment, int rating, Product product) {
+    public static Review updateReview(Long reviewId, String reviewerName, String comment, int rating, Product product) {
         return new Review.Builder()
                 .setReviewId(reviewId)
                 .setReviewerName(reviewerName)
@@ -24,7 +24,7 @@ public class ReviewFactory {
                 .build();
     }
 
-    public static Review deleteReview(String reviewId) {
+    public static Review deleteReview(Long reviewId) {
         return new Review.Builder()
                 .setReviewId(reviewId)
                 .build();

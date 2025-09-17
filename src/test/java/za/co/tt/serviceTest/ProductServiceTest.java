@@ -3,9 +3,7 @@ package za.co.tt.serviceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import za.co.tt.domain.Product;
-import za.co.tt.repository.ProductRepository;
-import za.co.tt.service.ProductService;
+import za.co.tt.repository.IProductRepository;
 
 import java.util.*;
 
@@ -15,7 +13,7 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
 
     @Mock
-    private ProductRepository repository;
+    private IProductRepository repository;
 
     @InjectMocks
     private ProductService service;
