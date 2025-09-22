@@ -42,7 +42,7 @@ public class CartService implements ICartService {
         }
         cartRepository.deleteById(id);
 
-        return ResponseEntity.noContent().build();
+        return null;
     }
 
     @Override

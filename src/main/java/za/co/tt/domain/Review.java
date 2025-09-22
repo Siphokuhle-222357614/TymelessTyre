@@ -4,12 +4,12 @@ package za.co.tt.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name ="reviews")
+@Table(name ="review")
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String reviewId;
+    private Long reviewId;
     private String reviewerName;
     private String comment;
     private int rating;
@@ -32,7 +32,7 @@ public class Review {
         this.product = builder.product;
     }
 
-    public String getReviewId() { return reviewId; }
+    public Long getReviewId() { return reviewId; }
     public String getReviewerName() { return reviewerName; }
     public String getComment() { return comment; }
     public int getRating() { return rating; }
@@ -50,13 +50,13 @@ public class Review {
     }
 
     public static class Builder {
-        private String reviewId;
+        private Long reviewId;
         private String reviewerName;
         private String comment;
         private int rating;
         private Product product;
 
-        public Builder setReviewId(String reviewId) { this.reviewId = reviewId; return this; }
+        public Builder setReviewId(Long reviewId) { this.reviewId = reviewId; return this; }
         public Builder setReviewerName(String reviewerName) { this.reviewerName = reviewerName; return this; }
         public Builder setComment(String comment) { this.comment = comment; return this; }
         public Builder setRating(int rating) { this.rating = rating; return this; }

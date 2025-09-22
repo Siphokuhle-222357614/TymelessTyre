@@ -9,8 +9,7 @@ public interface IService <T, ID>{
 
     T save(T entity);
     T update(T enity);
-    ResponseEntity<Cart> deleteById(ID id);
-    T read(ID id);
+    ResponseEntity<Cart> deleteById(Long id);     T read(ID id);
     List<T> findAll();
 
 }

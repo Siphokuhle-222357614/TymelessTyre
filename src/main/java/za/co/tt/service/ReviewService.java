@@ -7,7 +7,7 @@ import java.util.*;
 @Service
 public class ReviewService {
 
-    private final Map<String, Review> store = new HashMap<>();
+    private final Map<Long, Review> store = new HashMap<>();
 
     public Review createReview(Review review) {
         store.put(review.getReviewId(), review);

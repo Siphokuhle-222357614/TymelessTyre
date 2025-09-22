@@ -1,5 +1,7 @@
 package za.co.tt.service;
 
+import org.springframework.http.ResponseEntity;
+import za.co.tt.domain.Cart;
 import za.co.tt.domain.Order;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +18,7 @@ public interface IOrderService extends IService<Order, String> {
 
     void deleteOrder(String id);
 
-    void deleteById(Long id);
+    ResponseEntity<Cart> deleteById(Long id);
 
     Order read(Long id);
 }

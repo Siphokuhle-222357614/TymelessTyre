@@ -1,7 +1,9 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import za.co.tt.domain.Cart;
 import za.co.tt.domain.Payment;
 import za.co.tt.repository.PaymentRepository;
 import java.util.List;
@@ -26,8 +28,9 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public ResponseEntity<Cart> deleteById(Long id) {
         repository.deleteById(id);
+        return null;
     }
 
     @Override
