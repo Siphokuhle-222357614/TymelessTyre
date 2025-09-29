@@ -1,11 +1,12 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import za.co.tt.domain.Cart;
 import za.co.tt.domain.Delivery;
 import za.co.tt.repository.DeliveryRepository;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DeliveryService implements IService<Delivery, Long> {
@@ -27,8 +28,9 @@ public class DeliveryService implements IService<Delivery, Long> {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public ResponseEntity<Cart> deleteById(Long id) {
         repository.deleteById(id);
+        return null;
     }
 
     @Override
