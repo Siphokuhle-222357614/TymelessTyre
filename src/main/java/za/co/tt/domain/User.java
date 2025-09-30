@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     private String phoneNumber;
-    private String address;
+
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -39,7 +39,6 @@ public class User {
         this.email = builder.email;
         this.password = builder.password;
         this.phoneNumber = builder.phoneNumber;
-        this.address = builder.address;
         this.createdAt = builder.createdAt != null ? builder.createdAt : LocalDateTime.now();
         this.role = builder.role != null ? builder.role : "CUSTOMER";
     }
@@ -58,9 +57,6 @@ public class User {
     }
     public String getPhoneNumber() {
         return phoneNumber;
-    }
-    public String getAddress() {
-        return address;
     }
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -90,7 +86,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 ", role='" + role + '\'' +
                 '}';
@@ -107,7 +102,6 @@ public class User {
         private String email;
         private String password;
         private String phoneNumber;
-        private String address;
         private LocalDateTime createdAt;
         private String role;
 
@@ -131,10 +125,6 @@ public class User {
             this.phoneNumber = phoneNumber;
             return this;
         }
-        public Builder setAddress(String address) {
-            this.address = address;
-            return this;
-        }
         public Builder setCreatedAt(LocalDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
@@ -150,7 +140,6 @@ public class User {
             this.email = user.email;
             this.password = user.password;
             this.phoneNumber = user.phoneNumber;
-            this.address = user.address;
             this.createdAt = user.createdAt;
             this.role = user.role;
             return this;
