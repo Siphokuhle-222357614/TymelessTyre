@@ -7,6 +7,9 @@ import org.mockito.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import za.co.tt.controller.ProductController;
+import za.co.tt.domain.Product;
+import za.co.tt.service.ProductService;
 
 import java.util.*;
 

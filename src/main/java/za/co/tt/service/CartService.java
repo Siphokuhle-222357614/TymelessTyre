@@ -42,6 +42,7 @@ public class CartService implements ICartService {
         }
         cartRepository.deleteById(id);
 
+       // return null;  //I made some changes
         return null;
     }
 
