@@ -16,7 +16,7 @@ class PaymentFactoryTest {
             .build();
 
     private static Order testOrder = new Order.Builder()
-            .setOrderId("TEST_ORDER")
+            .setOrderId(0102L)
             .build();
 
     public static Payment payment1 = PaymentFactory.createPayment("Debit", "Approved", 750,

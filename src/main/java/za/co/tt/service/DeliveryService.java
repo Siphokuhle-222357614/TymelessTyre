@@ -30,6 +30,7 @@ public class DeliveryService implements IService<Delivery, Long> {
     @Override
     public ResponseEntity<Cart> deleteById(Long id) {
         repository.deleteById(id);
+        //return null;  //I made some changes
         return null;
     }
 

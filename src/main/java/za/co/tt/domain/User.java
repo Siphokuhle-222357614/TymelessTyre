@@ -3,6 +3,8 @@ package za.co.tt.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,12 +25,15 @@ public class User {
 
     private String phoneNumber;
 
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
+
     public User() {
 
     }
@@ -41,6 +46,7 @@ public class User {
         this.phoneNumber = builder.phoneNumber;
         this.createdAt = builder.createdAt != null ? builder.createdAt : LocalDateTime.now();
         this.role = builder.role != null ? builder.role : "CUSTOMER";
+        this.addresses = builder.addresses;
     }
 
     public Long getUserId() {
@@ -64,7 +70,13 @@ public class User {
     public String getRole() {
         return role;
     }
+    public List<Address> getAddresses() {
+        return addresses;
+    }
 
+    public void setUserId(Long id) {
+        this.userId = id;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -77,6 +89,9 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     @Override
     public String toString() {
@@ -88,12 +103,10 @@ public class User {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", createdAt=" + createdAt +
                 ", role='" + role + '\'' +
+                ", addresses=" + addresses +
                 '}';
     }
 
-    public void setUserId(Long id) {
-
-    }
 
 
     public static class Builder {
@@ -104,6 +117,7 @@ public class User {
         private String phoneNumber;
         private LocalDateTime createdAt;
         private String role;
+        private List<Address> addresses = new ArrayList<>();
 
         public Builder setUserId(Long userId) {
             this.userId = userId;
@@ -133,6 +147,10 @@ public class User {
             this.role = role;
             return this;
         }
+        public Builder setAddresses(List<Address> addresses) {
+            this.addresses = addresses;
+            return this;
+        }
 
         public Builder copy(User user) {
             this.userId = user.userId;
@@ -142,6 +160,7 @@ public class User {
             this.phoneNumber = user.phoneNumber;
             this.createdAt = user.createdAt;
             this.role = user.role;
+            this.addresses = user.addresses;
             return this;
         }
 

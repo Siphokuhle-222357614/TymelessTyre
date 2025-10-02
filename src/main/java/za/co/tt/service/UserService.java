@@ -65,6 +65,7 @@ public class UserService implements IUserService {
             throw new IllegalArgumentException("UserId cannot be null");
         }
         userRepository.deleteById(userId);
+        //return null;
         return null;
     }
 
