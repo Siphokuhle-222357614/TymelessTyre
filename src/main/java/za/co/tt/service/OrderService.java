@@ -1,5 +1,7 @@
 package za.co.tt.service;
 
+import org.springframework.http.ResponseEntity;
+import za.co.tt.domain.Cart;
 import za.co.tt.domain.Order;
 import za.co.tt.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +60,30 @@ public class OrderService implements IOrderService {
     @Override
     public List<Order> getOrdersByStatus(String status) {
         return orderRepository.findByOrderStatus(status);
+    }
+
+    @Override
+    public Order save(Order entity) {
+        return null;
+    }
+
+    @Override
+    public Order update(Order entity) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Cart> deleteById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public Order read(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return List.of();
     }
 }
