@@ -62,6 +62,6 @@ public class AddressService implements IAddressService {
 
     @Override
     public List<Address> findByUserId(Long userId) {
-        return addressRepository.findByUserId(userId);
+        return addressRepository.findByUserUserId(userId);
     }
 }

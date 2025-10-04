@@ -20,10 +20,10 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // Create a single product
+    // Create a single product - now uses the interface method
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        Product savedProduct = productService.saveProduct(product);
+        Product savedProduct = productService.save(product);
         return ResponseEntity.ok(savedProduct);
     }
 
@@ -46,15 +46,18 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+        return ResponseEntity.ok(productService.findAll());
     }
 
-    // Get product by ID
+    // Get product by ID - now uses the interface method
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        return product.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Product product = productService.read(id);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Advanced search with multiple parameters
@@ -77,7 +80,7 @@ public class ProductController {
     // Simple search by brand
     @GetMapping("/brand/{brand}")
     public ResponseEntity<List<Product>> getProductsByBrand(@PathVariable String brand) {
-        List<Product> products = productService.getAllProducts().stream()
+        List<Product> products = productService.findAll().stream()
                 .filter(product -> product.getBrand() != null && product.getBrand().equalsIgnoreCase(brand))
                 .collect(java.util.stream.Collectors.toList());
 

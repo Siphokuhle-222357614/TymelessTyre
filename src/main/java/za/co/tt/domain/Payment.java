@@ -10,18 +10,18 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long paymentId;
+    private Long paymentId;
     private String paymentMethod;
     private String paymentStatus;
     private double amount;
     private LocalDate paymentDate;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_Id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_Id")
     private Order order;
 
     protected Payment() {

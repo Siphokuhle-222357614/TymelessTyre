@@ -1,8 +1,10 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import za.co.tt.domain.Cart;
 import za.co.tt.domain.Product;
 import za.co.tt.domain.Enum.Season;
 import za.co.tt.domain.Enum.VehicleType;
@@ -19,8 +21,8 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Service
-public class ProductService {
-    
+public class ProductService implements IService<Product, Long> {
+
     private final IProductRepository productRepository;
     private final Path uploadDir;
 
@@ -37,6 +39,40 @@ public class ProductService {
         }
     }
 
+    // Implement IService methods
+    @Override
+    public Product save(Product entity) {
+        return productRepository.save(entity);
+    }
+
+    @Override
+    public Product update(Product entity) {
+        if (productRepository.existsById(entity.getId())) {
+            return productRepository.save(entity);
+        }
+        return null; // or throw exception
+    }
+
+    @Override
+    public ResponseEntity<Cart> deleteById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    public Product read(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    // Keep your existing methods with some adjustments
     public String storeFile(MultipartFile file) {
         try {
             String originalFilename = file.getOriginalFilename();
@@ -53,16 +89,13 @@ public class ProductService {
         }
     }
 
+    // This method is now redundant with the save() method, but you can keep it as a wrapper if needed
     public Product saveProduct(Product product) {
-        return productRepository.save(product);
+        return save(product);
     }
 
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
-    }
-
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
     }
 
     public List<Product> searchProducts(String brand, String model,
@@ -96,6 +129,7 @@ public class ProductService {
         return productRepository.saveAll(products);
     }
 
+    // This method is now redundant with deleteById() but you can keep it as a wrapper
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }

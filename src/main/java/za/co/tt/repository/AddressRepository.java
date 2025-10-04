@@ -5,5 +5,5 @@ import za.co.tt.domain.Address;
 import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    List<Address> findByUserId(Long userId);
+    List<Address> findByUserUserId(Long userId);
 }

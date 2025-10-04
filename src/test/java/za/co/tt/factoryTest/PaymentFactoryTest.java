@@ -1,10 +1,8 @@
 package za.co.tt.factoryTest;
 
 import org.junit.jupiter.api.Test;
-import za.co.tt.domain.Payment;
 import za.co.tt.domain.User;
 import za.co.tt.domain.Order;
-import za.co.tt.factory.PaymentFactory;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;

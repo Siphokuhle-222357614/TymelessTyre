@@ -1,6 +1,7 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import za.co.tt.domain.Cart;
@@ -29,9 +30,13 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public ResponseEntity<Cart> deleteById(Long id) {
-        repository.deleteById(id);
-        //return null; //I made some changes
-        return null;
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            // Return appropriate response - since we're dealing with Payment but interface expects Cart,
+            // we return a no-content response which is acceptable
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @Override
@@ -39,16 +44,18 @@ public class PaymentService implements IPaymentService {
         return repository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<Payment> findAll() {
+        return repository.findAll();
+    }
+
+    // Additional methods specific to PaymentService
     public List<Payment> findPaymentsByUserId(Long userId) {
         return repository.findByUser_UserId(userId);
     }
 
-    public Payment findPaymentByOrderId(String orderId) {
+    // Fixed parameter type to match repository method
+    public Payment findPaymentByOrderId(Long orderId) {
         return repository.findByOrder_OrderId(orderId);
-    }
-
-    @Override
-    public List<Payment> findAll() {
-        return repository.findAll();
     }
 }
