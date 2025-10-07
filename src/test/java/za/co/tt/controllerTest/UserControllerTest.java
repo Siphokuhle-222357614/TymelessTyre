@@ -29,9 +29,13 @@ public class UserControllerTest {
     @Order(1)
     void registerUser() {
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("uniqueUser02");
-        request.setEmail("unique02@example.com");
-        request.setPassword("Pass54321!");
+        request.setName("Johns");
+        request.setSurname("Brutus");
+        request.setUsername("BrutusJ");
+        request.setEmail("unique002@gmail.com");
+        request.setPhoneNumber("0782974196");
+        request.setPassword("Pass5432!");
+        request.setConfirmPassword("Pass5432!");
         request.setRole("CUSTOMER");
 
         ResponseEntity<User> response = restTemplate.postForEntity(
@@ -41,6 +45,9 @@ public class UserControllerTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("CUSTOMER", response.getBody().getRole());
+        assertEquals("Johns", response.getBody().getName());
+        assertEquals("Brutus", response.getBody().getSurname());
+        assertEquals("0782974196", response.getBody().getPhoneNumber());
 
         registeredUser = response.getBody();
         System.out.println("Registered user: " + registeredUser);
@@ -53,7 +60,7 @@ public class UserControllerTest {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername(registeredUser.getUsername());
-        loginRequest.setPassword("Pass54321!"); // Must match registered password
+        loginRequest.setPassword("Pass5432!");
 
         ResponseEntity<String> response = restTemplate.postForEntity(
                 baseUrl + "/login", loginRequest, String.class
@@ -69,9 +76,12 @@ public class UserControllerTest {
     @Order(3)
     void createAdminUser() {
         User user = new User.Builder()
-                .setUsername("adminUser02")
-                .setEmail("admin02@example.com")
-                .setPassword("AdminPass321")
+                .setName("Admin11")
+                .setSurname("User1")
+                .setUsername("JackAdmin")
+                .setEmail("admin01@gmail.com")
+                .setPhoneNumber("069925494")
+                .setPassword("AdminPass322")
                 .setRole("ADMIN")
                 .build();
 
@@ -82,7 +92,9 @@ public class UserControllerTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals("ADMIN", response.getBody().getRole());
+        assertEquals("Admin11", response.getBody().getName());
+        assertEquals("User1", response.getBody().getSurname());
+        assertEquals("069925494", response.getBody().getPhoneNumber());
         System.out.println("Created admin user: " + response.getBody());
     }
 }
-
