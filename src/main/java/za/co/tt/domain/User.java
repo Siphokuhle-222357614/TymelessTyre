@@ -14,6 +14,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+
+    private String name;
+    private String surname;
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -40,6 +43,8 @@ public class User {
 
     private User(Builder builder) {
         this.userId = builder.userId;
+        this.name = builder.name;
+        this.surname = builder.surname;
         this.username = builder.username;
         this.email = builder.email;
         this.password = builder.password;
@@ -51,6 +56,12 @@ public class User {
 
     public Long getUserId() {
         return userId;
+    }
+    public String getName() {
+        return name;
+    }
+    public String getSurname() {
+        return surname;
     }
     public String getUsername() {
         return username;
@@ -77,6 +88,12 @@ public class User {
     public void setUserId(Long id) {
         this.userId = id;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -97,13 +114,15 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", createdAt=" + createdAt +
                 ", role='" + role + '\'' +
-                ", addresses=" + addresses +
+                //", addresses=" + addresses +
                 '}';
     }
 
@@ -111,6 +130,8 @@ public class User {
 
     public static class Builder {
         private Long userId;
+        private String name;
+        private String surname;
         private String username;
         private String email;
         private String password;
@@ -121,6 +142,14 @@ public class User {
 
         public Builder setUserId(Long userId) {
             this.userId = userId;
+            return this;
+        }
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+        public Builder setSurname(String surname) {
+            this.surname = surname;
             return this;
         }
         public Builder setUsername(String username) {
@@ -154,6 +183,8 @@ public class User {
 
         public Builder copy(User user) {
             this.userId = user.userId;
+            this.name = user.name;
+            this.surname = user.surname;
             this.username = user.username;
             this.email = user.email;
             this.password = user.password;

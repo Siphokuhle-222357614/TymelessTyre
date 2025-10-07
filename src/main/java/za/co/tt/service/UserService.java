@@ -81,11 +81,17 @@ public class UserService implements IUserService {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
 
         User user = new User.Builder()
+                .setName(request.getName())
+                .setSurname(request.getSurname())
                 .setUsername(request.getUsername())
                 .setEmail(request.getEmail())
                 .setPassword(request.getPassword())
+                .setPhoneNumber(request.getPhoneNumber())
                 .setRole(request.getRole() != null ? request.getRole().toUpperCase() : "CUSTOMER")
                 .build();
 

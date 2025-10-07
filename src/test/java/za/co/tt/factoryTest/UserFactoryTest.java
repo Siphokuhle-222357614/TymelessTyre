@@ -12,7 +12,9 @@ public class UserFactoryTest {
     @Test
     void createUserWithRole() {
         User customerUser = UserFactory.createUser(
-                "RowanBrown",
+                "Rowan",
+                "Brown",
+                "RowanB",
                 "rown.b@gmail.com",
                 "password123",
                 "CUSTOMER"
@@ -25,8 +27,10 @@ public class UserFactoryTest {
     @Test
     void createUserAsCustomer() {
         User customer = UserFactory.createCustomer(
-                "AliceGreen",
-                "alice.g@gmail.com",
+                "Alice",
+                "Green",
+                "AliceB",
+                "alice.b@gmail.com",
                 "pass4564"
         );
         assertNotNull(customer);
@@ -37,7 +41,9 @@ public class UserFactoryTest {
     @Test
     void createUserAsAdmin() {
         User admin = UserFactory.createAdmin(
-                "RoseAdm",
+                "Rose",
+                "Barcelona",
+                "AdminBarcelona",
                 "rose@admin.com",
                 "0104adm"
         );
