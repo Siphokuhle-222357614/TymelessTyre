@@ -1,6 +1,7 @@
 package za.co.tt.domain;
 
 import jakarta.persistence.*;
+import za.co.tt.domain.Enum.AddressType;
 
 @Entity
 @Table(name = "addresses")
@@ -14,7 +15,11 @@ public class Address {
     private String state;
     private String postalCode;
     private String country;
-    private String addressType;
+
+
+    @Enumerated(EnumType.STRING)
+    private AddressType addressType;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -55,7 +60,7 @@ public class Address {
         return country;
     }
 
-    public String getAddressType() {
+    public AddressType getAddressType() {
         return addressType;
     }
 
@@ -87,7 +92,7 @@ public class Address {
         this.country = country;
     }
 
-    public void setAddressType(String addressType) {
+    public void setAddressType(AddressType addressType) {
         this.addressType = addressType;
     }
 
@@ -116,7 +121,7 @@ public class Address {
         private String state;
         private String postalCode;
         private String country;
-        private String addressType;
+        private AddressType addressType;
         private User user;
 
         public Builder setAddressId(Long addressId) {
@@ -143,7 +148,7 @@ public class Address {
             this.country = country;
             return this;
         }
-        public Builder setAddressType(String addressType) {
+        public Builder setAddressType(AddressType addressType) {
             this.addressType = addressType;
             return this;
         }

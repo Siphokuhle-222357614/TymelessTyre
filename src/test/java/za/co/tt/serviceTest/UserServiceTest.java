@@ -1,6 +1,5 @@
 package za.co.tt.serviceTest;
 
-
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -9,16 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.tt.domain.RegisterRequest;
 import za.co.tt.domain.User;
-import za.co.tt.factory.UserFactory;
 import za.co.tt.service.UserService;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserServiceTest {
 
     @Autowired
@@ -28,14 +25,23 @@ public class UserServiceTest {
     private static final RegisterRequest adminRequest = new RegisterRequest();
 
     static {
+        customerRequest.setName("Bonke");
+        customerRequest.setSurname("Bulana");
         customerRequest.setUsername("BonkeBul");
         customerRequest.setEmail("b.bulana@gmail.com");
+        customerRequest.setPhoneNumber("0782345678");
         customerRequest.setPassword("bb123");
+        customerRequest.setConfirmPassword("bb123");
         customerRequest.setRole("CUSTOMER");
 
+
+        adminRequest.setName("Sihle");
+        adminRequest.setSurname("Moor");
         adminRequest.setUsername("Moor");
         adminRequest.setEmail("s.moor@admin.com");
+        adminRequest.setPhoneNumber("0823456789");
         adminRequest.setPassword("25adm");
+        adminRequest.setConfirmPassword("25adm");
         adminRequest.setRole("ADMIN");
     }
 
@@ -47,6 +53,7 @@ public class UserServiceTest {
     void a_register() {
         customer = userService.register(customerRequest);
         admin = userService.register(adminRequest);
+
         assertNotNull(customer);
         assertEquals("CUSTOMER", customer.getRole());
         assertNotNull(admin);
@@ -93,7 +100,6 @@ public class UserServiceTest {
         System.out.println("Updated Customer: " + savedCustomer);
         System.out.println("Updated Admin: " + savedAdmin);
 
-
         customer = savedCustomer;
         admin = savedAdmin;
     }
@@ -108,6 +114,7 @@ public class UserServiceTest {
         assertEquals("CUSTOMER", customerLogin.get().getRole());
         assertTrue(adminLogin.isPresent());
         assertEquals("ADMIN", adminLogin.get().getRole());
+
         System.out.println("Customer login successful: " + customerLogin.get());
         System.out.println("Admin login successful: " + adminLogin.get());
     }
@@ -117,8 +124,10 @@ public class UserServiceTest {
     void e_delete() {
         userService.deleteById(customer.getUserId());
         userService.deleteById(admin.getUserId());
+
         Optional<User> deletedCustomer = userService.findByEmail(customer.getEmail());
         Optional<User> deletedAdmin = userService.findByEmail(admin.getEmail());
+
         assertFalse(deletedCustomer.isPresent());
         assertFalse(deletedAdmin.isPresent());
     }
