@@ -37,7 +37,7 @@ public class ReviewControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         sampleReview = new Review.Builder()
-                .setReviewId("1")
+                .setReviewId(90L)
                 .setReviewerName("Test User")
                 .setComment("Great product!")
                 .setRating(5)
@@ -57,7 +57,7 @@ public class ReviewControllerTest {
 
     @Test
     public void testGetReview() throws Exception {
-        when(service.getReviewById("1")).thenReturn(Optional.of(sampleReview));
+        when(service.getReviewById(90L)).thenReturn(Optional.of(sampleReview));
 
         mockMvc.perform(get("/api/reviews/1"))
                 .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public class ReviewControllerTest {
 
     @Test
     public void testGetReviewNotFound() throws Exception {
-        when(service.getReviewById("2")).thenReturn(Optional.empty());
+        when(service.getReviewById(91L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/reviews/2"))
                 .andExpect(status().isNotFound());
@@ -85,7 +85,7 @@ public class ReviewControllerTest {
 
     @Test
     public void testDeleteReview() throws Exception {
-        doNothing().when(service).deleteReview("1");
+        doNothing().when(service).deleteReview(90L);
 
         mockMvc.perform(delete("/api/reviews/1"))
                 .andExpect(status().isNoContent());

@@ -54,13 +54,17 @@ public class ProductService implements IService<Product, Long> {
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long id) {
-        if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
         }
-        return ResponseEntity.notFound().build();
-    }
+
+        if (!productRepository.existsById(id)) {
+            throw new IllegalArgumentException("Product with ID " + id + " not found");
+        }
+
+        productRepository.deleteById(id);
+    } // made some changes, to avoid having errors
 
     @Override
     public Product read(Long id) {

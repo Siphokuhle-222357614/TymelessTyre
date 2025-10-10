@@ -1,4 +1,4 @@
-package za.co.tt.service;
+package za.co.tt.serviceTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import za.co.tt.domain.Address;
 import za.co.tt.domain.User;
 import za.co.tt.repository.AddressRepository;
 import za.co.tt.repository.UserRepository;
+import za.co.tt.service.AddressService;
 
 import java.util.List;
 import java.util.Optional;

@@ -73,9 +73,16 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long aLong) {
-        return null;
-    }
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+        if (!orderRepository.existsById(id)) {
+            throw new IllegalArgumentException("Entity with ID " + id + " not found");
+        }
+        orderRepository.deleteById(id);
+    } //made some changes to avoid error
+
 
     @Override
     public Order read(Long aLong) {

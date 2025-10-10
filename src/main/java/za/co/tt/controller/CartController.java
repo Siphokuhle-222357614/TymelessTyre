@@ -24,9 +24,15 @@ import java.util.List;
             return ResponseEntity.ok(created);
         }
 
-        public ResponseEntity<Cart> getCart(@PathVariable Long id) {
-            return service.deleteById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Cart> getCart(@PathVariable Long id) {
+        Cart cart = service.read(id);
+        if (cart != null) {
+            return ResponseEntity.ok(cart);
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    } // made some changes, to avoid having errors.
 
         @GetMapping
         public ResponseEntity<List<Cart>> getAllCarts() {

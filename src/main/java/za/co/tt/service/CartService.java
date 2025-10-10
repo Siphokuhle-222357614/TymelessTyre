@@ -36,14 +36,13 @@ public class CartService implements ICartService {
 
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long id) {
+    public void deleteById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("id cannot be null");
         }
         cartRepository.deleteById(id);
 
-       // return null;  //I made some changes
-        return null;
+        // return null;  //I made some changes
     }
 
     @Override
