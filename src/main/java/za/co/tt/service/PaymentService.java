@@ -29,15 +29,17 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            // Return appropriate response - since we're dealing with Payment but interface expects Cart,
-            // we return a no-content response which is acceptable
-            return ResponseEntity.noContent().build();
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
         }
-        return ResponseEntity.notFound().build();
-    }
+
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Entity with ID " + id + " not found");
+        }
+
+        repository.deleteById(id);
+    } //made some changes to avoid having errors
 
     @Override
     public Payment read(Long id) {

@@ -60,13 +60,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("UserId cannot be null");
+    public void deleteById(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new IllegalArgumentException("User with ID " + userId + " not found");
         }
         userRepository.deleteById(userId);
-        //return null;
-        return null;
     }
 
     public Optional<User> login(String username, String password) {
