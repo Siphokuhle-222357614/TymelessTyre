@@ -1,11 +1,13 @@
 package za.co.tt.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "addresses"}) //ignoring lazy proxy for address
 @Entity
 @Table(name = "users")
 public class User {
@@ -34,8 +36,9 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Address> addresses = new ArrayList<>();
+
 
     public User() {
 

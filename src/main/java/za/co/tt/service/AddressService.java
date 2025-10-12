@@ -37,12 +37,14 @@ public class AddressService implements IAddressService {
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long id) {
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null.");
+        }
         if (!addressRepository.existsById(id)) {
             throw new IllegalArgumentException("Address with ID " + id + " not found.");
         }
         addressRepository.deleteById(id);
-        return null;
     }
 
     @Override

@@ -1,62 +1,54 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import za.co.tt.domain.Cart;
 import za.co.tt.domain.Delivery;
 import za.co.tt.repository.DeliveryRepository;
+
 import java.util.List;
 
 @Service
-public class DeliveryService implements IService<Delivery, Long> {
+public class DeliveryService implements IDeliveryService{
 
     @Autowired
-    private DeliveryRepository repository;
+    private DeliveryRepository deliveryRepository;
 
     @Override
     public Delivery save(Delivery delivery) {
-        return repository.save(delivery);
+        return deliveryRepository.save(delivery);
     }
 
     @Override
     public Delivery update(Delivery delivery) {
-        if (repository.existsById(delivery.getDeliveryId())) {
-            return repository.save(delivery);
+        if (deliveryRepository.existsById(delivery.getDeliveryId())) {
+            return deliveryRepository.save(delivery);
         }
         return null;
     }
 
     @Override
-    public ResponseEntity<Cart> deleteById(Long id) {
-        repository.deleteById(id);
-        //return null;  //I made some changes
-        return null;
-    }
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+
+        if (!deliveryRepository.existsById(id)) {
+            throw new IllegalArgumentException("Entity with ID " + id + " not found");
+        }
+
+        deliveryRepository.deleteById(id);
+    } //made some changes to avoid having errorseturn null;
 
     @Override
     public Delivery read(Long id) {
-        return repository.findById(id).orElse(null);
+        return deliveryRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Delivery> findAll() {
-        return repository.findAll();
+        return deliveryRepository.findAll();
     }
+} //Tried to clean this class, since it had errors. But you can make changes if you want to
 
-    public List<Delivery> findDeliveriesByStatus(String status) {
-        return repository.findByDeliveryStatus(status);
-    }
 
-    public List<Delivery> findDeliveriesByCourier(String courierName) {
-        return repository.findByCourierName(courierName);
-    }
 
-    public List<Delivery> findPendingDeliveries() {
-        return repository.findByDeliveryStatus("Pending");
-    }
-
-    public List<Delivery> findCompletedDeliveries() {
-        return repository.findByDeliveryStatus("Delivered");
-    }
-}
