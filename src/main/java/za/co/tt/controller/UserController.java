@@ -1,7 +1,5 @@
 package za.co.tt.controller;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +7,6 @@ import za.co.tt.domain.LoginRequest;
 import za.co.tt.domain.RegisterRequest;
 import za.co.tt.domain.User;
 import za.co.tt.service.UserService;
-
 import java.util.List;
 import java.util.Optional;
 

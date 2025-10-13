@@ -25,7 +25,8 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Address() {}
+    public Address() {
+    }
 
     public Address(Builder builder) {
         this.addressId = builder.addressId;
