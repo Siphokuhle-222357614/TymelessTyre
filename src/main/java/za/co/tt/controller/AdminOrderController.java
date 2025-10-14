@@ -20,13 +20,11 @@ public class AdminOrderController {
         this.orderService = orderService;
     }
 
-
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
@@ -39,13 +37,11 @@ public class AdminOrderController {
         }
     }
 
-
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order savedOrder = orderService.createOrder(order);
         return ResponseEntity.ok(savedOrder);
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
@@ -58,7 +54,6 @@ public class AdminOrderController {
         }
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
         try {
@@ -70,13 +65,11 @@ public class AdminOrderController {
         }
     }
 
-
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Order>> getOrdersByUser(@PathVariable Long userId) {
         List<Order> orders = orderService.getOrdersByUserId(userId);
         return ResponseEntity.ok(orders);
     }
-
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Order>> getOrdersByStatus(@PathVariable String status) {

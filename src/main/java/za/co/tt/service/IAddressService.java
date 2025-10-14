@@ -7,6 +7,5 @@ import java.util.*;
 public interface IAddressService extends IService<Address, Long> {
 
     Optional<Address> findById(Long id);
-
     List<Address> findByUserId(Long userId);
 }

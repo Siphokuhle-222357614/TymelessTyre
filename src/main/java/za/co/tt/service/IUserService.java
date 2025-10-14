@@ -1,7 +1,6 @@
 package za.co.tt.service;
 
 import za.co.tt.domain.User;
-
 import java.util.List;
 import java.util.Optional;
 

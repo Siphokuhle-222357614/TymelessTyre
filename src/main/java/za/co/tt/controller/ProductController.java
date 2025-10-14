@@ -51,7 +51,7 @@ public class ProductController {
 
     // Get product by ID - now uses the interface method
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Product product = productService.read(id);
         if (product != null) {
             return ResponseEntity.ok(product);
