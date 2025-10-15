@@ -47,7 +47,7 @@ public class AddressServiceTest {
         address.setStreet("St CPT Marks");
         address.setCity("Cape Town");
         address.setState("Western Cape");
-        address.setPostalCode("8004");
+        address.setPostalCode(8004);
         address.setCountry("South Africa");
         address.setUser(testUser);
 
