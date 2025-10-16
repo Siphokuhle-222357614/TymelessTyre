@@ -112,6 +112,9 @@ public class User {
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     @Override
     public String toString() {
@@ -128,6 +131,7 @@ public class User {
                 //", addresses=" + addresses +
                 '}';
     }
+
 
 
 

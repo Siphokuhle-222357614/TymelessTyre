@@ -8,8 +8,8 @@ public interface IUserService extends IService<User, Long> {
 
     Optional<User> findByEmail(String email);
     List<User> findByRole(String role);
-    Optional<User> findByUsernameAndRole(String username, String role);
+    Optional<User> findByUsername(String username);
     List<User> findAll();
-    Optional<User> getById(Long id);
+    Optional<User> findById(Long id);
     void deleteById(Long userId);
 }

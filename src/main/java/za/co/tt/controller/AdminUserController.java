@@ -31,7 +31,7 @@ public class AdminUserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        Optional<User> existingUser = userService.getById(id);
+        Optional<User> existingUser = userService.findById(id);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
             user.setUsername(updatedUser.getUsername());
@@ -48,7 +48,7 @@ public class AdminUserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        Optional<User> existingUser = userService.getById(id);
+        Optional<User> existingUser = userService.findById(id);
         if (existingUser.isPresent()) {
             userService.deleteById(id);
             return ResponseEntity.ok(Map.of("message", "User with ID " + id + " deleted successfully"));

@@ -21,8 +21,8 @@ public class Address {
     private AddressType addressType;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Address() {
@@ -35,6 +35,7 @@ public class Address {
         this.postalCode = builder.postalCode;
         this.country = builder.country;
         this.addressType = builder.addressType;
+        this.user = builder.user;
     }
 
     public Long getAddressId() {
