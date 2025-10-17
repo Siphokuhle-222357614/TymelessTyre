@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 
     private final ProductService productService;
@@ -47,6 +47,17 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product createdProduct = productService.createProduct(product);
         return ResponseEntity.ok(createdProduct);
+    }
+
+    // Bulk create products
+    @PostMapping("/bulk")
+    public ResponseEntity<?> createProducts(@RequestBody List<Product> products) {
+        try {
+            List<Product> savedProducts = productService.saveAllProducts(products);
+            return ResponseEntity.ok(savedProducts);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error creating products: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")

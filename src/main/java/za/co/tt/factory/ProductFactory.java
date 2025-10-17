@@ -8,7 +8,7 @@ public class ProductFactory {
 
     public static Product createProduct(String productName, String productModel, int width,
                                         int aspectRatio, int rimDiameter, Season season,
-                                        VehicleType vehicleType, int productPrice,
+                                        VehicleType vehicleType, double productPrice,
                                         int stockQuantity, String imageUrl, String description) {
         return new Product.Builder()
                 .setProductName(productName)
@@ -27,7 +27,7 @@ public class ProductFactory {
 
     public static Product createProductWithId(Long productId, String productName, String productModel,
                                               int width, int aspectRatio, int rimDiameter,
-                                              Season season, VehicleType vehicleType, int productPrice,
+                                              Season season, VehicleType vehicleType, double productPrice,
                                               int stockQuantity, String imageUrl, String description) {
         return new Product.Builder()
                 .setProductId(productId)
