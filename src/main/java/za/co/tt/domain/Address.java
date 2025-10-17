@@ -13,7 +13,7 @@ public class Address {
     private String street;
     private String city;
     private String state;
-    private String postalCode;
+    private int postalCode;
     private String country;
 
 
@@ -21,8 +21,8 @@ public class Address {
     private AddressType addressType;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Address() {
@@ -35,6 +35,7 @@ public class Address {
         this.postalCode = builder.postalCode;
         this.country = builder.country;
         this.addressType = builder.addressType;
+        this.user = builder.user;
     }
 
     public Long getAddressId() {
@@ -53,7 +54,7 @@ public class Address {
         return state;
     }
 
-    public String getPostalCode() {
+    public int getPostalCode() {
         return postalCode;
     }
 
@@ -85,7 +86,7 @@ public class Address {
         this.state = state;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -120,7 +121,7 @@ public class Address {
         private String street;
         private String city;
         private String state;
-        private String postalCode;
+        private int postalCode;
         private String country;
         private AddressType addressType;
         private User user;
@@ -141,7 +142,7 @@ public class Address {
             this.state = state;
             return this;
         }
-        public Builder setPostalCode(String postalCode) {
+        public Builder setPostalCode(int postalCode) {
             this.postalCode = postalCode;
             return this;
         }
@@ -165,6 +166,7 @@ public class Address {
             this.state = address.state;
             this.postalCode = address.postalCode;
             this.country = address.country;
+            this.addressType = address.addressType;
             this.user = address.user;
             return this;
         }

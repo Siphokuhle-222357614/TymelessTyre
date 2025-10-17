@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.tt.domain.Address;
+import za.co.tt.domain.Enum.AddressType;
 import za.co.tt.domain.User;
 import za.co.tt.repository.AddressRepository;
 import za.co.tt.repository.UserRepository;
@@ -47,8 +48,9 @@ public class AddressServiceTest {
         address.setStreet("St CPT Marks");
         address.setCity("Cape Town");
         address.setState("Western Cape");
-        address.setPostalCode("8004");
+        address.setPostalCode(8004);
         address.setCountry("South Africa");
+        address.setAddressType(AddressType.HOME);
         address.setUser(testUser);
 
         Address saved = addressService.save(address);

@@ -1,144 +1,125 @@
 package za.co.tt.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import za.co.tt.domain.Cart;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.tt.domain.Product;
 import za.co.tt.domain.Enum.Season;
 import za.co.tt.domain.Enum.VehicleType;
 import za.co.tt.repository.IProductRepository;
+import za.co.tt.service.IProductService;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.Optional;
 
 @Service
-public class ProductService implements IService<Product, Long> {
+@Transactional
+public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
-    private final Path uploadDir;
 
-    public ProductService(IProductRepository productRepository,
-                          @Value("${file.upload-dir}") String uploadDir) {
+    @Autowired
+    public ProductService(IProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.uploadDir = Paths.get(uploadDir).toAbsolutePath().normalize();
-        try {
-            if (!Files.exists(this.uploadDir)) {
-                Files.createDirectories(this.uploadDir);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create upload directory", e);
-        }
-    }
-
-    // Implement IService methods
-    @Override
-    public Product save(Product entity) {
-        return productRepository.save(entity);
     }
 
     @Override
-    public Product update(Product entity) {
-        if (productRepository.existsById(entity.getId())) {
-            return productRepository.save(entity);
-        }
-        return null; // or throw exception
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
-        }
-
-        if (!productRepository.existsById(id)) {
-            throw new IllegalArgumentException("Product with ID " + id + " not found");
-        }
-
-        productRepository.deleteById(id);
-    } // made some changes, to avoid having errors
-
-    @Override
-    public Product read(Long id) {
-        return productRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Product> findAll() {
+    @Transactional(readOnly = true)
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    // Keep your existing methods with some adjustments
-    public String storeFile(MultipartFile file) {
-        try {
-            String originalFilename = file.getOriginalFilename();
-            String fileExtension = "";
-            if (originalFilename != null && originalFilename.contains(".")) {
-                fileExtension = originalFilename.substring(originalFilename.lastIndexOf('.'));
-            }
-            String uniqueFilename = UUID.randomUUID().toString() + fileExtension;
-            Path targetLocation = this.uploadDir.resolve(uniqueFilename);
-            Files.copy(file.getInputStream(), targetLocation);
-            return uniqueFilename;
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to store file: " + file.getOriginalFilename(), e);
-        }
-    }
-
-    // This method is now redundant with the save() method, but you can keep it as a wrapper if needed
-    public Product saveProduct(Product product) {
-        return save(product);
-    }
-
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
 
-    public List<Product> searchProducts(String brand, String model,
-                                        Integer width, Integer aspectRatio,
-                                        Integer rimDiameter, String season,
-                                        String vehicleType,
-                                        Double minPrice, Double maxPrice) {
-
-        BigDecimal min = (minPrice == null) ? null : BigDecimal.valueOf(minPrice);
-        BigDecimal max = (maxPrice == null) ? null : BigDecimal.valueOf(maxPrice);
-
-        return productRepository.findAll().stream()
-                .filter(product -> brand == null || product.getBrand() == null || product.getBrand().equalsIgnoreCase(brand))
-                .filter(product -> model == null || product.getModel() == null || product.getModel().equalsIgnoreCase(model))
-                .filter(product -> width == null || product.getWidth() == null || product.getWidth().equals(width))
-                .filter(product -> aspectRatio == null || product.getAspectRatio() == null || product.getAspectRatio().equals(aspectRatio))
-                .filter(product -> rimDiameter == null || product.getRimDiameter() == null || product.getRimDiameter().equals(rimDiameter))
-                .filter(product -> season == null || product.getSeason() == null || product.getSeason().name().equalsIgnoreCase(season))
-                .filter(product -> vehicleType == null || product.getVehicleType() == null || product.getVehicleType().name().equalsIgnoreCase(vehicleType))
-                .filter(product -> min == null || product.getPrice() == null || product.getPrice().compareTo(min) >= 0)
-                .filter(product -> max == null || product.getPrice() == null || product.getPrice().compareTo(max) <= 0)
-                .collect(Collectors.toList());
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Product> getProductByName(String productName) {
+        return productRepository.findByProductName(productName);
     }
 
-    public List<Product> searchProductsByVehicle(String make, String model, Integer year) {
-        // Placeholder: implement when Vehicle entity/relation exists
-        return productRepository.findAll();
+    @Override
+    public Product createProduct(Product product) {
+        if (product.getProductId() != null) {
+            throw new IllegalArgumentException("Product ID must be null for new product");
+        }
+        return productRepository.save(product);
     }
 
-    public List<Product> saveAllProducts(List<Product> products) {
-        return productRepository.saveAll(products);
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        return productRepository.findById(id)
+                .map(existingProduct -> {
+                    existingProduct.setProductName(product.getProductName());
+                    existingProduct.setProductModel(product.getProductModel());
+                    existingProduct.setWidth(product.getWidth());
+                    existingProduct.setAspectRatio(product.getAspectRatio());
+                    existingProduct.setRimDiameter(product.getRimDiameter());
+                    existingProduct.setSeason(product.getSeason());
+                    existingProduct.setVehicleType(product.getVehicleType());
+                    existingProduct.setProductPrice(product.getProductPrice());
+                    existingProduct.setStockQuantity(product.getStockQuantity());
+                    existingProduct.setImageUrl(product.getImageUrl());
+                    existingProduct.setDescription(product.getDescription());
+                    return productRepository.save(existingProduct);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
     }
 
-    // This method is now redundant with deleteById() but you can keep it as a wrapper
+    @Override
     public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new RuntimeException("Product not found with id: " + id);
+        }
         productRepository.deleteById(id);
     }
 
-    public boolean productExists(Long id) {
-        return productRepository.existsById(id);
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> getProductsBySeason(Season season) {
+        return productRepository.findBySeason(season);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByVehicleType(VehicleType vehicleType) {
+        return productRepository.findByVehicleType(vehicleType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> getProductsInStock() {
+        return productRepository.findByStockQuantityGreaterThan(0);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByPriceRange(int minPrice, int maxPrice) {
+        return productRepository.findByProductPriceBetween(minPrice, maxPrice);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> searchProducts(String searchTerm) {
+        return productRepository.searchProducts(searchTerm);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByTireSpecifications(int width, int aspectRatio, int rimDiameter) {
+        return productRepository.findByTireSpecifications(width, aspectRatio, rimDiameter);
+    }
+
+    @Override
+    public Product updateStockQuantity(Long id, int newStockQuantity) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    product.setStockQuantity(newStockQuantity);
+                    return productRepository.save(product);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
     }
 }

@@ -1,95 +1,197 @@
 package za.co.tt.controllerTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import za.co.tt.controller.ProductController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.*;
 import za.co.tt.domain.Product;
-import za.co.tt.service.ProductService;
+import za.co.tt.domain.Enum.Season;
+import za.co.tt.domain.Enum.VehicleType;
+import za.co.tt.factory.ProductFactory;
+import za.co.tt.repository.IProductRepository;
 
-import java.util.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class ProductControllerTest {
 
-public class ProductControllerTest {
+    @Autowired
+    private TestRestTemplate restTemplate;
 
-    private MockMvc mockMvc;
+    @Autowired
+    private IProductRepository productRepository;
 
-    @Mock
-    private ProductService service;
-
-    @InjectMocks
-    private ProductController controller;
-
-    private ObjectMapper mapper = new ObjectMapper();
-
-    private Product sampleProduct;
+    private Product testProduct;
+    private Long savedProductId;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    public void setUp() {
+        productRepository.deleteAll();
 
-        sampleProduct = new Product.Builder()
-                .setProductId(1L)
-                .setProductName("Test Product")
-                .setProductDescription("Description")
-                .setProductBrand("Brand")
-                .setProductPrice(100.0)
-                .setProductQuantity(10)
-                .build();
+        testProduct = ProductFactory.createProduct(
+                "Test Tire", "Model X", 225, 55, 17,
+                Season.SUMMER, VehicleType.Sedan, 15000, 50,
+                "http://example.com/tire.jpg", "High performance summer tire"
+        );
+
+        Product savedProduct = productRepository.save(testProduct);
+        savedProductId = savedProduct.getProductId();
     }
 
     @Test
-    public void testCreateProduct() throws Exception {
-        when(service.createProduct(any(Product.class))).thenReturn(sampleProduct);
+    public void testCreateProduct() {
+        Product newProduct = ProductFactory.createProduct(
+                "New Tire", "Model N", 195, 65, 16,
+                Season.ALL_SEASON, VehicleType.SUV, 12000, 25,
+                "new.jpg", "New all season tire"
+        );
 
-        mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(sampleProduct)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productName").value("Test Product"));
+        ResponseEntity<Product> response = restTemplate.postForEntity(
+                "/api/products", newProduct, Product.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("New Tire", response.getBody().getProductName());
+        assertEquals(VehicleType.SUV, response.getBody().getVehicleType());
     }
 
     @Test
-    public void testGetProduct() throws Exception {
-        when(service.getProductById(1L)).thenReturn(Optional.of(sampleProduct));
+    public void testGetAllProducts() {
+        Product product2 = ProductFactory.createProduct(
+                "Winter Tire", "Model W", 205, 65, 16,
+                Season.WINTER, VehicleType.SUV, 18000, 30,
+                "winter.jpg", "Winter tire"
+        );
+        productRepository.save(product2);
 
-        mockMvc.perform(get("/api/products/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productId").value(1L));
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().length >= 2);
     }
 
     @Test
-    public void testGetProductNotFound() throws Exception {
-        when(service.getProductById(2L)).thenReturn(Optional.empty());
+    public void testGetProductById() {
+        ResponseEntity<Product> response = restTemplate.getForEntity(
+                "/api/products/" + savedProductId, Product.class);
 
-        mockMvc.perform(get("/api/products/2"))
-                .andExpect(status().isNotFound());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Test Tire", response.getBody().getProductName());
+        assertEquals(Season.SUMMER, response.getBody().getSeason());
     }
 
     @Test
-    public void testUpdateProduct() throws Exception {
-        when(service.updateProduct(any(Product.class))).thenReturn(sampleProduct);
+    public void testUpdateProduct() {
+        Product updatedProduct = ProductFactory.createProduct(
+                "Updated Tire", "Model U", 235, 45, 18,
+                Season.WINTER, VehicleType.Sports_Car, 18000, 30,
+                "updated.jpg", "Updated winter tire"
+        );
 
-        mockMvc.perform(put("/api/products/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(sampleProduct)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.productId").value(1L));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Product> entity = new HttpEntity<>(updatedProduct, headers);
+
+        ResponseEntity<Product> response = restTemplate.exchange(
+                "/api/products/" + savedProductId,
+                HttpMethod.PUT,
+                entity,
+                Product.class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Updated Tire", response.getBody().getProductName());
+        assertEquals(Season.WINTER, response.getBody().getSeason());
+        assertEquals(VehicleType.Sports_Car, response.getBody().getVehicleType());
     }
 
     @Test
-    public void testDeleteProduct() throws Exception {
-        doNothing().when(service).deleteProduct(1L);
+    public void testDeleteProduct() {
+        restTemplate.delete("/api/products/" + savedProductId);
 
-        mockMvc.perform(delete("/api/products/1"))
-                .andExpect(status().isNoContent());
+        assertFalse(productRepository.findById(savedProductId).isPresent());
+    }
+
+    @Test
+    public void testGetProductsBySeason() {
+        Product winterProduct = ProductFactory.createProduct(
+                "Winter Tire", "Model W", 205, 65, 16,
+                Season.WINTER, VehicleType.SUV, 18000, 30,
+                "winter.jpg", "Winter tire"
+        );
+        productRepository.save(winterProduct);
+
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products/season/SUMMER", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(Season.SUMMER, response.getBody()[0].getSeason());
+    }
+
+    @Test
+    public void testGetProductsByVehicleType() {
+        Product suvProduct = ProductFactory.createProduct(
+                "SUV Tire", "Model SUV", 265, 60, 18,
+                Season.ALL_SEASON, VehicleType.SUV, 20000, 25,
+                "suv.jpg", "SUV tire"
+        );
+        productRepository.save(suvProduct);
+
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products/vehicle-type/SEDAN", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(VehicleType.Sedan, response.getBody()[0].getVehicleType());
+    }
+
+    @Test
+    public void testGetProductsInStock() {
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products/in-stock", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody()[0].getStockQuantity() > 0);
+    }
+
+    @Test
+    public void testGetProductsByPriceRange() {
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products/price-range?minPrice=10000&maxPrice=20000", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(15000, response.getBody()[0].getProductPrice());
+    }
+
+    @Test
+    public void testSearchProducts() {
+        ResponseEntity<Product[]> response = restTemplate.getForEntity(
+                "/api/products/search?searchTerm=performance", Product[].class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Test Tire", response.getBody()[0].getProductName());
+    }
+
+    @Test
+    public void testUpdateStockQuantity() {
+        ResponseEntity<Product> response = restTemplate.exchange(
+                "/api/products/" + savedProductId + "/stock?stockQuantity=100",
+                HttpMethod.PATCH,
+                null,
+                Product.class
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(100, response.getBody().getStockQuantity());
+        assertEquals(savedProductId, response.getBody().getProductId());
     }
 }

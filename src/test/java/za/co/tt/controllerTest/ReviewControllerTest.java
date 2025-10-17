@@ -74,8 +74,7 @@ public class ReviewControllerTest {
 
     @Test
     public void testUpdateReview() throws Exception {
-        when(service.updateReview(any(Review.class))).thenReturn(sampleReview);
-
+        when(service.updateReview(eq(90L), any(Review.class))).thenReturn(sampleReview);
         mockMvc.perform(put("/api/reviews/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(sampleReview)))

@@ -25,11 +25,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<User> findByUsernameAndRole(String username, String role) {
-        return userRepository.findByUsernameAndRole(username, role);
-    }
-
-    @Override
     public List<User> findByRole(String role) {
         return userRepository.findByRole(role);
     }
@@ -46,6 +41,7 @@ public class UserService implements IUserService {
         }
         return userRepository.save(entity);
     }
+
 
     @Override
     public User read(Long userId) {
@@ -94,7 +90,12 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
