@@ -28,7 +28,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 
-    private int productPrice;
+    private double productPrice;
     private int stockQuantity;
     private String imageUrl;
     private String description;
@@ -96,8 +96,8 @@ public class Product {
     public VehicleType getVehicleType() { return vehicleType; }
     public void setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; }
 
-    public int getProductPrice() { return productPrice; }
-    public void setProductPrice(Integer productPrice) { this.productPrice = productPrice; }
+    public double getProductPrice() { return productPrice; }
+    public void setProductPrice(double productPrice) { this.productPrice = productPrice; }
 
     public int getStockQuantity() { return stockQuantity; }
     public void setStockQuantity(Integer stockQuantity) { this.stockQuantity = stockQuantity; }
@@ -140,7 +140,7 @@ public class Product {
         private int rimDiameter;
         private Season season;
         private VehicleType vehicleType;
-        private int productPrice;
+        private double productPrice;
         private int stockQuantity;
         private String imageUrl;
         private String description;
@@ -156,7 +156,7 @@ public class Product {
         public Builder setRimDiameter(int rimDiameter) { this.rimDiameter = rimDiameter; return this; }
         public Builder setSeason(Season season) { this.season = season; return this; }
         public Builder setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; return this; }
-        public Builder setProductPrice(int productPrice) { this.productPrice = productPrice; return this; }
+        public Builder setProductPrice(double productPrice) { this.productPrice = productPrice; return this; }
         public Builder setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; return this; }
         public Builder setImageUrl(String imageUrl) { this.imageUrl = imageUrl; return this; }
         public Builder setDescription(String description) { this.description = description; return this; }

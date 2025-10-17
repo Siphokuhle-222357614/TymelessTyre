@@ -122,4 +122,8 @@ public class ProductService implements IProductService {
                 })
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
     }
+
+    public List<Product> saveAllProducts(List<Product> products) {
+        return productRepository.saveAll(products);
+    }
 }
