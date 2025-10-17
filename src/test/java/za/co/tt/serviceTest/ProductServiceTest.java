@@ -2,75 +2,141 @@ package za.co.tt.serviceTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import za.co.tt.domain.Product;
-import za.co.tt.repository.IProductRepository;
+import za.co.tt.domain.Enum.Season;
+import za.co.tt.domain.Enum.VehicleType;
+import za.co.tt.factory.ProductFactory;
 import za.co.tt.service.ProductService;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@Transactional
 public class ProductServiceTest {
 
-    @Mock
-    private IProductRepository repository;
+    @Autowired
+    private ProductService productService;
 
-    @InjectMocks
-    private ProductService service;
-
-    private Product sampleProduct;
+    private Product testProduct;
 
     @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        sampleProduct = new Product.Builder()
-                .setProductId(1L)
-                .setProductName("Sample")
-                .setProductDescription("Desc")
-                .setProductBrand("Brand")
-                .setProductPrice(10.0)
-                .setProductQuantity(1)
-                .build();
+    public void setUp() {
+        testProduct = ProductFactory.createProduct(
+                "Test Tire", "Model X", 225, 55, 17,
+                Season.SUMMER, VehicleType.LightTruck, 15000, 50,
+                "http://example.com/tire.jpg", "High performance summer tire"
+        );
     }
 
     @Test
     public void testCreateProduct() {
-        when(repository.save(any(Product.class))).thenReturn(sampleProduct);
-        Product created = service.createProduct(sampleProduct);
-        assertEquals(sampleProduct, created);
-        verify(repository).save(sampleProduct);
+        Product savedProduct = productService.createProduct(testProduct);
+
+        assertNotNull(savedProduct);
+        assertNotNull(savedProduct.getProductId());
+        assertEquals("Test Tire", savedProduct.getProductName());
+        assertEquals(Season.SUMMER, savedProduct.getSeason());
+        assertEquals(VehicleType.Passenger, savedProduct.getVehicleType());
+    }
+
+    @Test
+    public void testGetAllProducts() {
+        productService.createProduct(testProduct);
+
+        Product anotherProduct = ProductFactory.createProduct(
+                "Winter Tire", "Model W", 205, 65, 16,
+                Season.WINTER, VehicleType.SUV, 18000, 30,
+                "winter.jpg", "Winter tire"
+        );
+        productService.createProduct(anotherProduct);
+
+        List<Product> products = productService.getAllProducts();
+
+        assertNotNull(products);
+        assertTrue(products.size() >= 2);
     }
 
     @Test
     public void testGetProductById() {
-        when(repository.findById(1L)).thenReturn(Optional.of(sampleProduct));
-        Optional<Product> product = service.getProductById(1L);
-        assertTrue(product.isPresent());
-        assertEquals(sampleProduct, product.get());
+        Product savedProduct = productService.createProduct(testProduct);
+        Long productId = savedProduct.getProductId();
+
+        Optional<Product> foundProduct = productService.getProductById(productId);
+
+        assertTrue(foundProduct.isPresent());
+        assertEquals("Test Tire", foundProduct.get().getProductName());
+        assertEquals(productId, foundProduct.get().getProductId());
     }
 
     @Test
-    public void testUpdateProductSuccess() {
-        when(repository.existsById(1L)).thenReturn(true);
-        when(repository.save(sampleProduct)).thenReturn(sampleProduct);
-        Product updated = service.updateProduct(sampleProduct);
-        assertEquals(sampleProduct, updated);
-    }
+    public void testUpdateProduct() {
+        Product savedProduct = productService.createProduct(testProduct);
+        Long productId = savedProduct.getProductId();
 
-    @Test
-    public void testUpdateProductFail() {
-        when(repository.existsById(1L)).thenReturn(false);
-        assertThrows(IllegalArgumentException.class, () -> {
-            service.updateProduct(sampleProduct);
-        });
+        Product updatedProductData = ProductFactory.createProduct(
+                "Updated Tire", "Model Z", 235, 45, 18,
+                Season.WINTER, VehicleType.Sports_Car, 18000, 30,
+                "updated.jpg", "Updated description"
+        );
+
+        Product updatedProduct = productService.updateProduct(productId, updatedProductData);
+
+        assertNotNull(updatedProduct);
+        assertEquals(productId, updatedProduct.getProductId());
+        assertEquals("Updated Tire", updatedProduct.getProductName());
+        assertEquals(Season.WINTER, updatedProduct.getSeason());
+        assertEquals(VehicleType.Sports_Car, updatedProduct.getVehicleType());
     }
 
     @Test
     public void testDeleteProduct() {
-        doNothing().when(repository).deleteById(1L);
-        service.deleteProduct(1L);
-        verify(repository).deleteById(1L);
+        Product savedProduct = productService.createProduct(testProduct);
+        Long productId = savedProduct.getProductId();
+
+        assertTrue(productService.getProductById(productId).isPresent());
+
+        productService.deleteProduct(productId);
+
+        assertFalse(productService.getProductById(productId).isPresent());
+    }
+
+    @Test
+    public void testGetProductsBySeason() {
+        productService.createProduct(testProduct);
+
+        Product winterTire = ProductFactory.createProduct(
+                "Winter Tire", "Model W", 205, 65, 16,
+                Season.WINTER, VehicleType.SUV, 18000, 30,
+                "winter.jpg", "Winter tire"
+        );
+        productService.createProduct(winterTire);
+
+        List<Product> summerProducts = productService.getProductsBySeason(Season.SUMMER);
+
+        assertFalse(summerProducts.isEmpty());
+        assertEquals(Season.SUMMER, summerProducts.get(0).getSeason());
+    }
+
+    @Test
+    public void testGetProductsByVehicleType() {
+        productService.createProduct(testProduct);
+
+        Product suvTire = ProductFactory.createProduct(
+                "SUV Tire", "Model SUV", 265, 60, 18,
+                Season.ALL_SEASON, VehicleType.SUV, 20000, 25,
+                "suv.jpg", "SUV tire"
+        );
+        productService.createProduct(suvTire);
+
+        List<Product> sedanProducts = productService.getProductsByVehicleType(VehicleType.Sedan);
+
+        assertFalse(sedanProducts.isEmpty());
+        assertEquals(VehicleType.Sedan, sedanProducts.get(0).getVehicleType());
     }
 }

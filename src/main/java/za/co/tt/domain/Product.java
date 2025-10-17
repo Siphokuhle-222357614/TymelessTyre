@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import za.co.tt.domain.Enum.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +14,13 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long productId;
 
-    private String brand;
-    private String model;
-    private Integer width;
-    private Integer aspectRatio;
-    private Integer rimDiameter;
+    private String productName;
+    private String productModel;
+    private int width;
+    private int aspectRatio;
+    private int rimDiameter;
 
     @Enumerated(EnumType.STRING)
     private Season season;
@@ -29,8 +28,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
 
-    private BigDecimal price;
-    private Integer stockQuantity;
+    private int productPrice;
+    private int stockQuantity;
     private String imageUrl;
     private String description;
 
@@ -49,15 +48,15 @@ public class Product {
     public Product() {}
 
     public Product(Builder builder) {
-        this.id = builder.id;
-        this.brand = builder.brand;
-        this.model = builder.model;
+        this.productId = builder.productId;
+        this.productName = builder.productName;
+        this.productModel = builder.productModel;
         this.width = builder.width;
         this.aspectRatio = builder.aspectRatio;
         this.rimDiameter = builder.rimDiameter;
         this.season = builder.season;
         this.vehicleType = builder.vehicleType;
-        this.price = builder.price;
+        this.productPrice = builder.productPrice;
         this.stockQuantity = builder.stockQuantity;
         this.imageUrl = builder.imageUrl;
         this.description = builder.description;
@@ -66,29 +65,29 @@ public class Product {
 
     // Getters and setters
 
-    public Long getId() {
-        return id;
+    public Long getProductId() {
+        return productId;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getProductName() {
+        return productName;
     }
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getModel() {
-        return model;
+    public String getProductModel() {
+        return productModel;
     }
-    public void setModel(String model) { this.model = model; }
+    public void setProductModel(String productModel) { this.productModel = productModel; }
 
-    public Integer getWidth() { return width; }
+    public int getWidth() { return width; }
     public void setWidth(Integer width) { this.width = width; }
 
-    public Integer getAspectRatio() { return aspectRatio; }
+    public int getAspectRatio() { return aspectRatio; }
     public void setAspectRatio(Integer aspectRatio) { this.aspectRatio = aspectRatio; }
 
-    public Integer getRimDiameter() { return rimDiameter; }
+    public int getRimDiameter() { return rimDiameter; }
     public void setRimDiameter(Integer rimDiameter) { this.rimDiameter = rimDiameter; }
 
     public Season getSeason() { return season; }
@@ -97,10 +96,10 @@ public class Product {
     public VehicleType getVehicleType() { return vehicleType; }
     public void setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public int getProductPrice() { return productPrice; }
+    public void setProductPrice(Integer productPrice) { this.productPrice = productPrice; }
 
-    public Integer getStockQuantity() { return stockQuantity; }
+    public int getStockQuantity() { return stockQuantity; }
     public void setStockQuantity(Integer stockQuantity) { this.stockQuantity = stockQuantity; }
 
     public String getImageUrl() { return imageUrl; }
@@ -115,15 +114,15 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + id +
-                ", brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
+                "id=" + productId +
+                ", brand='" + productName + '\'' +
+                ", model='" + productModel + '\'' +
                 ", width=" + width +
                 ", aspectRatio=" + aspectRatio +
                 ", rimDiameter=" + rimDiameter +
                 ", season=" + season +
                 ", vehicleType=" + vehicleType +
-                ", price=" + price +
+                ", price=" + productPrice +
                 ", stockQuantity=" + stockQuantity +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", description='" + description + '\'' +
@@ -133,36 +132,38 @@ public class Product {
 
     // Builder
     public static class Builder {
-        private Long id;
-        private String brand;
-        private String model;
-        private Integer width;
-        private Integer aspectRatio;
-        private Integer rimDiameter;
+        private Long productId;
+        private String productName;
+        private String productModel;
+        private int width;
+        private int aspectRatio;
+        private int rimDiameter;
         private Season season;
         private VehicleType vehicleType;
-        private BigDecimal price;
-        private Integer stockQuantity;
+        private int productPrice;
+        private int stockQuantity;
         private String imageUrl;
         private String description;
         private List<ProductFitment> fitments;
 
         public Builder() {}
 
-        public Builder setId(Long id) { this.id = id; return this; }
-        public Builder setBrand(String brand) { this.brand = brand; return this; }
-        public Builder setModel(String model) { this.model = model; return this; }
-        public Builder setWidth(Integer width) { this.width = width; return this; }
-        public Builder setAspectRatio(Integer aspectRatio) { this.aspectRatio = aspectRatio; return this; }
-        public Builder setRimDiameter(Integer rimDiameter) { this.rimDiameter = rimDiameter; return this; }
+        public Builder setProductId(Long productId) { this.productId = productId; return this; }
+        public Builder setProductName(String productName) { this.productName = productName; return this; }
+        public Builder setProductModel(String productModel) { this.productModel = productModel; return this; }
+        public Builder setWidth(int width) { this.width = width; return this; }
+        public Builder setAspectRatio(int aspectRatio) { this.aspectRatio = aspectRatio; return this; }
+        public Builder setRimDiameter(int rimDiameter) { this.rimDiameter = rimDiameter; return this; }
         public Builder setSeason(Season season) { this.season = season; return this; }
         public Builder setVehicleType(VehicleType vehicleType) { this.vehicleType = vehicleType; return this; }
-        public Builder setPrice(BigDecimal price) { this.price = price; return this; }
-        public Builder setStockQuantity(Integer stockQuantity) { this.stockQuantity = stockQuantity; return this; }
+        public Builder setProductPrice(int productPrice) { this.productPrice = productPrice; return this; }
+        public Builder setStockQuantity(int stockQuantity) { this.stockQuantity = stockQuantity; return this; }
         public Builder setImageUrl(String imageUrl) { this.imageUrl = imageUrl; return this; }
         public Builder setDescription(String description) { this.description = description; return this; }
         public Builder setFitments(List<ProductFitment> fitments) { this.fitments = fitments; return this; }
 
         public Product build() { return new Product(this); }
+
+        }
     }
-}
+

@@ -50,7 +50,7 @@ public class Review {
                 ", reviewerName='" + reviewerName + '\'' +
                 ", rating=" + rating +
                 ", comment='" + comment + '\'' +
-                ", product=" + (product != null ? product.getBrand() : "null") +
+                ", product=" + (product != null ? product.getProductName(): "null") +
                 '}';
     }
 
