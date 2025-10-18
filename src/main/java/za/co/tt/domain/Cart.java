@@ -19,12 +19,10 @@ public class Cart {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "cart_items",
-            joinColumns = @JoinColumn(name = "cart_id")
-    )
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "cart_items", joinColumns = @JoinColumn(name = "cart_id"))
     private List<CartItem> items = new ArrayList<>();
+
 
     @CreationTimestamp
     private LocalDate createdAt;
@@ -72,6 +70,30 @@ public class Cart {
         return isActive;
     }
 
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
+    }
+
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+    }
+
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString() {
         return "Cart{" +
@@ -83,6 +105,7 @@ public class Cart {
                 ", isActive=" + isActive +
                 '}';
     }
+
 
     public static class Builder {
         private Long cartId;
