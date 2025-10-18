@@ -7,6 +7,7 @@ import za.co.tt.domain.LoginRequest;
 import za.co.tt.domain.RegisterRequest;
 import za.co.tt.domain.User;
 import za.co.tt.service.UserService;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +23,19 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
-        User newUser = userService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try {
+            User newUser = userService.register(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed");
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<User> user = userService.login(request.getUsername(), request.getPassword());
 
         if (user.isPresent()) {
@@ -75,15 +82,12 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User user) {
         try {
             user.setUserId(userId);
-
-            User updatedUser = userService.update(user); //calls service update
+            User updatedUser = userService.update(user);
             return ResponseEntity.ok(updatedUser);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-
-
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
