@@ -1,6 +1,7 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import za.co.tt.domain.RegisterRequest;
 import za.co.tt.domain.User;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -42,7 +45,6 @@ public class UserService implements IUserService {
         return userRepository.save(entity);
     }
 
-
     @Override
     public User read(Long userId) {
         return userRepository.findById(userId).orElse(null);
@@ -61,9 +63,9 @@ public class UserService implements IUserService {
         userRepository.deleteById(userId);
     }
 
-    public Optional<User> login(String username, String password) {
+    public Optional<User> login(String username, String rawPassword) {
         return userRepository.findByUsername(username)
-                .filter(user -> user.getPassword().equals(password));
+                .filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()));
     }
 
     public User register(RegisterRequest request) {
@@ -82,7 +84,7 @@ public class UserService implements IUserService {
                 .setSurname(request.getSurname())
                 .setUsername(request.getUsername())
                 .setEmail(request.getEmail())
-                .setPassword(request.getPassword())
+                .setPassword(passwordEncoder.encode(request.getPassword()))
                 .setPhoneNumber(request.getPhoneNumber())
                 .setRole(request.getRole() != null ? request.getRole().toUpperCase() : "CUSTOMER")
                 .build();

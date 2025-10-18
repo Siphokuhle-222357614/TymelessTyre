@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import za.co.tt.domain.RegisterRequest;
 import za.co.tt.domain.User;
 import za.co.tt.service.UserService;
@@ -21,6 +22,9 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private static final RegisterRequest customerRequest = new RegisterRequest();
     private static final RegisterRequest adminRequest = new RegisterRequest();
 
@@ -33,7 +37,6 @@ public class UserServiceTest {
         customerRequest.setPassword("bb123");
         customerRequest.setConfirmPassword("bb123");
         customerRequest.setRole("CUSTOMER");
-
 
         adminRequest.setName("Sihle");
         adminRequest.setSurname("Moor");
@@ -59,6 +62,9 @@ public class UserServiceTest {
         assertNotNull(admin);
         assertEquals("ADMIN", admin.getRole());
 
+        assertTrue(passwordEncoder.matches("bb123", customer.getPassword()));
+        assertTrue(passwordEncoder.matches("25adm", admin.getPassword()));
+
         System.out.println("Registered Customer: " + customer);
         System.out.println("Registered Admin: " + admin);
     }
@@ -83,19 +89,19 @@ public class UserServiceTest {
     void c_update() {
         User updatedCustomer = new User.Builder()
                 .copy(customer)
-                .setPassword("bb029")
+                .setPassword(passwordEncoder.encode("bb029"))
                 .build();
 
         User updatedAdmin = new User.Builder()
                 .copy(admin)
-                .setPassword("5adm")
+                .setPassword(passwordEncoder.encode("5adm"))
                 .build();
 
         User savedCustomer = userService.save(updatedCustomer);
         User savedAdmin = userService.save(updatedAdmin);
 
-        assertEquals("bb029", savedCustomer.getPassword());
-        assertEquals("5adm", savedAdmin.getPassword());
+        assertTrue(passwordEncoder.matches("bb029", savedCustomer.getPassword()));
+        assertTrue(passwordEncoder.matches("5adm", savedAdmin.getPassword()));
 
         System.out.println("Updated Customer: " + savedCustomer);
         System.out.println("Updated Admin: " + savedAdmin);
@@ -107,8 +113,8 @@ public class UserServiceTest {
     @Test
     @Order(4)
     void d_login() {
-        Optional<User> customerLogin = userService.login(customer.getUsername(), customer.getPassword());
-        Optional<User> adminLogin = userService.login(admin.getUsername(), admin.getPassword());
+        Optional<User> customerLogin = userService.login(customer.getUsername(), "bb029");
+        Optional<User> adminLogin = userService.login(admin.getUsername(), "5adm");
 
         assertTrue(customerLogin.isPresent());
         assertEquals("CUSTOMER", customerLogin.get().getRole());
