@@ -1,72 +1,55 @@
-package za.co.tt.controller;
+// package za.co.tt.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import za.co.tt.domain.Cart;
-import za.co.tt.service.CartService;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.*;
+// import za.co.tt.domain.Cart;
+// import za.co.tt.service.CartService;
 
-import java.util.List;
+// import java.util.List;
+// @CrossOrigin(origins = "http://localhost:5173")
+//     @RestController
+//     @RequestMapping("id/cart")
 
-@CrossOrigin(origins = "*")
-@RestController
-@RequestMapping("/api/cart")
-public class CartController {
+//     public class CartController {
 
-    private final CartService service;
+//         private final CartService service;
 
-    public CartController(CartService service) {
-        this.service = service;
-    }
+//         public CartController(CartService service) {
+//             this.service = service;
+//         }
 
-    @PostMapping("/create")
-    public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
-        Cart createdCart = service.save(cart);
-        return ResponseEntity.ok(createdCart);
-    }
+//         @PostMapping
+//         public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
+//             Cart created = service.createCart(cart);
+//             return ResponseEntity.ok(created);
+//         }
 
-    @GetMapping("/{cartId}")
-    public ResponseEntity<Cart> getCartById(@PathVariable Long cartId) {
-        Cart cart = service.read(cartId);
-        return (cart != null) ? ResponseEntity.ok(cart) : ResponseEntity.notFound().build();
-    }
+//     @GetMapping("/{id}")
+//     public ResponseEntity<Cart> getCart(@PathVariable Long id) {
+//         Cart cart = service.read(id);
+//         if (cart != null) {
+//             return ResponseEntity.ok(cart);
+//         } else {
+//             return ResponseEntity.notFound().build();
+//         }
+//     } // made some changes, to avoid having errors.
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Cart>> getAllCarts() {
-        List<Cart> carts = service.findAll();
-        return ResponseEntity.ok(carts);
-    }
+//         @GetMapping
+//         public ResponseEntity<List<Cart>> getAllCarts() {
+//             return ResponseEntity.ok(service.getAllCarts());
+//         }
 
-    @PutMapping("/update/{cartId}")
-    public ResponseEntity<Cart> updateCart(@PathVariable Long cartId, @RequestBody Cart updatedCart) {
-        Cart existing = service.read(cartId);
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
+//         @PutMapping("/{id}")
+//         public ResponseEntity<Cart> updateCart(@PathVariable Long id, @RequestBody Cart cart) {
+//             if (!id.equals(cart.getCartId())) {
+//                 return ResponseEntity.badRequest().build();
+//             }
+//             try {
+//                 Cart updated = service.createCart(cart);
+//                 return ResponseEntity.ok(updated);
+//             } catch (IllegalArgumentException ex) {
+//                 return ResponseEntity.notFound().build();
+//             }
 
-        updatedCart.setCartId(cartId);
-        Cart saved = service.update(updatedCart);
-        return ResponseEntity.ok(saved);
-    }
-
-    @DeleteMapping("/delete/{cartId}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Long cartId) {
-        try {
-            service.deleteById(cartId);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Cart> addToCart(@RequestParam Long userId,
-                                          @RequestParam Long productId,
-                                          @RequestParam(defaultValue = "1") int quantity) {
-        try {
-            Cart updatedCart = service.addProductToCart(userId, productId, quantity);
-            return ResponseEntity.ok(updatedCart);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-}
+//         }
+// }

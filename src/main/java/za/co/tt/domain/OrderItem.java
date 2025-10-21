@@ -17,6 +17,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private Order order;
 
     public OrderItem() {}
@@ -40,14 +41,18 @@ public class OrderItem {
         this.quantity = quantity;
         if (this.price != null) {
             this.subtotal = this.price.multiply(BigDecimal.valueOf(quantity));
+        } else {
+            this.subtotal = BigDecimal.ZERO;
         }
     }
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price = (price != null) ? price : BigDecimal.ZERO;
         if (this.quantity > 0) {
-            this.subtotal = price.multiply(BigDecimal.valueOf(this.quantity));
+            this.subtotal = this.price.multiply(BigDecimal.valueOf(this.quantity));
+        } else {
+            this.subtotal = BigDecimal.ZERO;
         }
     }
 

@@ -1,10 +1,9 @@
 package za.co.tt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+// ...existing code...
 import org.springframework.stereotype.Service;
-import za.co.tt.domain.Cart;
+// ...existing code...
 import za.co.tt.domain.Payment;
 import za.co.tt.repository.PaymentRepository;
 import java.util.List;

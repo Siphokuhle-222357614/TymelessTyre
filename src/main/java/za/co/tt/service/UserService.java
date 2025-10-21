@@ -1,4 +1,8 @@
+
 package za.co.tt.service;
+
+import za.co.tt.domain.Address;
+import za.co.tt.domain.Enum.AddressType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,6 +49,7 @@ public class UserService implements IUserService {
         return userRepository.save(entity);
     }
 
+
     @Override
     public User read(Long userId) {
         return userRepository.findById(userId).orElse(null);
@@ -63,9 +68,9 @@ public class UserService implements IUserService {
         userRepository.deleteById(userId);
     }
 
-    public Optional<User> login(String username, String rawPassword) {
-        return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(rawPassword, user.getPassword()));
+    public Optional<User> login(String username, String password) {
+    return userRepository.findByUsername(username)
+        .filter(user -> passwordEncoder.matches(password, user.getPassword()));
     }
 
     public User register(RegisterRequest request) {
@@ -75,19 +80,38 @@ public class UserService implements IUserService {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new IllegalArgumentException("Passwords do not match");
+
+        String role = (request.getRole() != null && !request.getRole().isBlank()) ? request.getRole().toUpperCase() : "CUSTOMER";
+    User user = new User.Builder()
+        .setName(request.getName())
+        .setSurname(request.getSurname())
+        .setUsername(request.getUsername())
+        .setEmail(request.getEmail())
+        .setPassword(passwordEncoder.encode(request.getPassword()))
+        .setPhoneNumber(request.getPhoneNumber())
+        .setRole(role)
+        .build();
+
+        // Add address for all users (including admins)
+        AddressType addressTypeEnum = null;
+        try {
+            addressTypeEnum = AddressType.valueOf(
+                request.getAddressType() != null ? request.getAddressType().toUpperCase() : "HOME");
+        } catch (Exception e) {
+            addressTypeEnum = AddressType.HOME;
         }
 
-        User user = new User.Builder()
-                .setName(request.getName())
-                .setSurname(request.getSurname())
-                .setUsername(request.getUsername())
-                .setEmail(request.getEmail())
-                .setPassword(passwordEncoder.encode(request.getPassword()))
-                .setPhoneNumber(request.getPhoneNumber())
-                .setRole(request.getRole() != null ? request.getRole().toUpperCase() : "CUSTOMER")
+        Address address = new Address.Builder()
+                .setStreet(request.getStreet())
+                .setCity(request.getCity())
+                .setState(request.getState())
+                .setPostalCode(request.getPostalCode())
+                .setCountry(request.getCountry())
+                .setAddressType(addressTypeEnum)
+                .setUser(user)
                 .build();
+
+        user.getAddresses().add(address);
 
         return userRepository.save(user);
     }
@@ -99,5 +123,17 @@ public class UserService implements IUserService {
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    public void updatePassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

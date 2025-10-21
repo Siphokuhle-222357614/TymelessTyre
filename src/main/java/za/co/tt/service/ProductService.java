@@ -7,7 +7,7 @@ import za.co.tt.domain.Product;
 import za.co.tt.domain.Enum.Season;
 import za.co.tt.domain.Enum.VehicleType;
 import za.co.tt.repository.IProductRepository;
-import za.co.tt.service.IProductService;
+// ...existing code...
 
 import java.util.List;
 import java.util.Optional;
@@ -121,9 +121,5 @@ public class ProductService implements IProductService {
                     return productRepository.save(product);
                 })
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
-    }
-
-    public List<Product> saveAllProducts(List<Product> products) {
-        return productRepository.saveAll(products);
     }
 }

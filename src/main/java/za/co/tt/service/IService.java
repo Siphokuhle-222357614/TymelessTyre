@@ -1,6 +1,6 @@
 package za.co.tt.service;
 
-import org.springframework.http.ResponseEntity;
+// ...existing code...
 import java.util.List;
 
 public interface IService <T, ID>{

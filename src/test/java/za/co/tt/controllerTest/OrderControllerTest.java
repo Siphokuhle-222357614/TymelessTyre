@@ -29,17 +29,25 @@ class OrderControllerTest {
 
     @Test
     void shouldCreateOrder() throws Exception {
+        // Correct JSON format for OrderDto
         String orderJson = """
                 {
-                  "id": "1",
-                  "customerName": "Test Customer",
-                  "totalAmount": 100.0
+                  "userId": 1,
+                  "status": "pending",
+                  "totalPrice": 150.0,
+                  "orderItems": [
+                    {
+                      "productId": 1,
+                      "quantity": 2,
+                      "price": 75.0
+                    }
+                  ]
                 }
                 """;
 
-        mockMvc.perform(post("/orders")
+        mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderJson))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 }

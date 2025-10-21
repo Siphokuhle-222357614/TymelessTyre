@@ -1,10 +1,12 @@
+
 package za.co.tt.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.tt.domain.Order;
+import za.co.tt.domain.OrderDto;
 import za.co.tt.service.OrderService;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,12 +22,14 @@ public class AdminOrderController {
         this.orderService = orderService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
         Optional<Order> order = orderService.getOrderById(id);
@@ -37,12 +41,14 @@ public class AdminOrderController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order savedOrder = orderService.createOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
+        Order savedOrder = orderService.createOrder(orderDto);
         return ResponseEntity.ok(savedOrder);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody Order updatedOrder) {
         try {
@@ -54,6 +60,7 @@ public class AdminOrderController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
         try {

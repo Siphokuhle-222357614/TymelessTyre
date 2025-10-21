@@ -38,11 +38,12 @@ public class UserFactory {
         return createUser(name, surname, username, email, password, "CUSTOMER");
     }
 
+    // Admin creation now uses User entity with role "ADMIN"
     public static User createAdmin(String name,
-                                   String surname,
-                                   String username,
-                                   String email,
-                                   String password) {
+                                  String surname,
+                                  String username,
+                                  String email,
+                                  String password) {
         return createUser(name, surname, username, email, password, "ADMIN");
     }
 }
