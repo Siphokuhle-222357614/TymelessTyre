@@ -114,3 +114,13 @@ mvn test
 
 🖥️ **Frontend:** [Tymelesstyre-frontend](https://github.com/Siphokuhle-222357614/Tymelesstyre-frontend) — Vue.js + Vite client application
 
+
+## Team
+
+| Role | GitHub |
+|------|--------|
+| Project Lead | [@Siphokuhle-222357614](https://github.com/Siphokuhle-222357614) |
+| Developer | [@222582731](https://github.com/222582731) |
+| Developer | [@BonkeBulana](https://github.com/BonkeBulana) |
+| Developer | [@Ofentselebaka](https://github.com/Ofentselebaka) |
+| Developer | [[@phelomadubela](https://github.com/phelomadubela) |
