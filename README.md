@@ -123,4 +123,4 @@ mvn test
 | Developer | [@222582731](https://github.com/222582731) |
 | Developer | [@BonkeBulana](https://github.com/BonkeBulana) |
 | Developer | [@Ofentselebaka](https://github.com/Ofentselebaka) |
-| Developer | [[@phelomadubela](https://github.com/phelomadubela) |
+| Developer | [@phelomadubela](https://github.com/phelomadubela) |
